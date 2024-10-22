@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="sl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="glavno.css">
+    <title>Dodaj Nov Recept</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Dodaj Nov Recept</h1>
+    <form id="recipeForm">
+        <label for="name">Ime recepta:</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="description">Opis:</label>
+        <textarea id="description" name="description"></textarea>
+
+        <label for="ingredients">Sestavine:</label>
+        <textarea id="ingredients" name="ingredients" required></textarea>
+
+        <label for="instructions">Navodila:</label>
+        <textarea id="instructions" name="instructions" required></textarea>
+
+        <button type="submit">Dodaj Recept</button>
+    </form>
+
+    <script>
+        document.getElementById('recipeForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prepreči privzeto obnašanje obrazca
+
+            const recipe = {
+                ime: document.getElementById('name').value,
+                opis: document.getElementById('description').value,
+                sestavine: document.getElementById('ingredients').value,
+                navodila: document.getElementById('instructions').value
+            };
+            console.log(recipe); 
+
+            // Pošlji POST zahtevek na Spring Boot API
+            fetch('http://localhost:8080/recepti/dodaj', { // Spremeni URL, da ustreza tvojemu API-ju
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(recipe)
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error('Napaka pri dodajanju recepta');
+                }
+            })
+            .then(data => {
+                alert('Recept uspešno dodan: ' + data.ime);
+                // Počisti obrazec
+                document.getElementById('recipeForm').reset();
+            })
+            .catch(error => {
+                console.error('Napaka:', error);
+                alert('Napaka pri dodajanju recepta.');
+            });
+        });
+    </script>
+</body>
+</html>
