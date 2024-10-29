@@ -61,13 +61,13 @@ ustvarite mySQL podatkovno bazo in jo prilagodite projektu, konfigurirajte nasta
  ## Running the App
  1. Frontend
 V mapi projekta v teminalu poženite dva ukaza:
- cd frontend 
- npm start
+ - cd frontend 
+ - node server.js
 
  2. Backend
  v terminalu:
- cd backend
- mvn spring-boot:run
+ - cd backend
+ - mvn spring-boot:run
 
 ## Testing
  1. Backend
