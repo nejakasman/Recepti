@@ -7,16 +7,18 @@ Spletna stran z recepti
 
 ## Kazalo
 
-- [About the Project](#about-the-project)
-- [Technologies Used](#technologies-used)
-- [Project Structure](#project-structure)
-- [Getting Started](#getting-started)
-- [Prerequisites](#prerequisites)
-- [Installation](#installation)
-- [Running the App](#running-the-app)
-- [Testing](#testing)
-- [Contributing](#contributing)
-- [License](#license)
+- [O projektu](#o-projektu)
+- [Vizija projekta](#vizija-projekta)
+- [Besednjak](#besednjak)
+- [Uporabljene tehnologije](#uporabljene-tehnologije)
+- [Struktura projekta](#struktura-projekta)
+- [Za začetek](#za-začetek)
+- [Kaj potrebujete](#kaj-potrebujete)
+- [inštalacija](#inštalacija)
+- [Zagon aplikacije](#zagon-aplikacije)
+- [Testiranje](#testiranje)
+- [Kontribucija](#kontribucija)
+- [Licenca](#licenca)
 
 ## O projektu
 Aplikacija Moji Recepti je preprosta spletna stran za deljenje in iskanje receptov, namenjena kuharjem, ljubiteljem kulinarike in vsem, ki radi pripravljajo jedi doma. Uporabnikom omogoča preprost način za iskanje receptov po kategorijah, objavljanje lastnih receptov in dodajanje svojih priljubljenih receptov na seznam za kasnejšo uporabo. Zasnovana je kot platforma, kjer lahko uporabniki delijo kulinarične nasvete, ocenjujejo recepte in izmenjujejo ideje.
