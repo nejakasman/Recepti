@@ -131,25 +131,18 @@ This project is licensed under the terms of the MIT license.
 
 ## Diagram primera uporabe 
 
-![System Architecture Diagram](diagram.jpeg)
+![System Architecture Diagram](dpu.jpg)
 
 ## Scenarij
 
-
-1. Neregistriran uporabnik
-	•	Registracija: Uporabnik se lahko registrira v sistem, da pridobi dostop do dodatnih funkcionalnosti. Proces registracije vključuje izpolnitev obrazca z osebnimi podatki.
-	•	Ogled receptov: Uporabnik si lahko ogleda podrobnosti izbranih receptov, vključno z njihovimi sestavinami in navodili za pripravo.
-	•	Iskanje receptov: Uporabnik lahko išče recepte po različnih kriterijih.
-	◦	Extend: Iskanje po filtru: Ta funkcionalnost razširja osnovno iskanje, tako da uporabnik lahko filtrira rezultate iskanja glede na sestavine, čas priprave, ocene itd.
-2. Registriran uporabnik
-	•	Prijava: Registrirani uporabnik se prijavi v sistem z uporabo svojega uporabniškega imena in gesla.
-	•	Deljenje idej: Uporabnik lahko deli svoje kuharske ideje in nasvete z drugimi uporabniki.
-	•	Ocenjevanje receptov: Uporabnik lahko oceni recepte, kar pomaga drugim uporabnikom pri iskanju kakovostnih receptov.
-	•	Deljenje receptov: Uporabnik lahko deli svoje lastne recepte.
-	◦	Extend: Urejanje receptov: Uporabnik lahko po potrebi ureja svoje recepte pred deljenjem ali kasneje.
-	◦	Include: Odobritev receptov s strani admina: Preden so recepti objavljeni, jih mora administrator odobriti, kar zagotavlja kakovost in skladnost vsebine.
-	•	Generalizacija na neregistriranega uporabnika: regisriran uporabnik ima vse pravice neregistriranega uporabnika, kar pomeni, da lahko izvaja vse funkcionalnosti, ki so na voljo neregistriranim uporabnikom.
-3. Administrator
-	•	Odobritev receptov: Administrator pregleda in odobrava ali zavrača nove recepte, ki jih predložijo registrirani uporabniki, s čimer zagotavlja, da so recepti kakovostni in primerne vsebine.
-	•	Generalizacija na registriranega uporabnika: Administrator ima vse pravice registriranega uporabnika, kar pomeni, da lahko izvaja vse funkcionalnosti, ki so na voljo registriranim uporabnikom, poleg svojih upravljalskih nalog.
+1. Ogled receptov: Uporabnik si lahko ogleda podrobnosti izbranih receptov, vključno z njihovimi sestavinami in navodili za pripravo.
+2. Iskanje receptov: Uporabnik lahko išče recepte po različnih kriterijih. 
+3. Izbira filtra iskanja: Ta funkcionalnost razširja osnovno iskanje, tako da uporabnik lahko filtrira rezultate iskanja glede na sestavine, čas priprave, ocene itd.
+4. Komentiranje o receptih: Uporabnik lahko deli svoje mnenje in nasvete z drugimi uporabniki.
+5. Ocenjevanje receptov: Uporabnik lahko oceni recepte, kar pomaga drugim uporabnikom pri iskanju kakovostnih receptov.
+6. Objava receptov: Uporabnik lahko deli svoje lastne recepte.
+7. Urejanje receptov: Uporabnik lahko po potrebi ureja svoje recepte pred deljenjem ali kasneje.
+8. Dodajanje receptov med priljubljene: Uporabnik lahko doda posamezne recepte med priljubljene, kjer so lažje dostopni.
+9. Odobritev receptov: Administrator pregleda in odobrava ali zavrača nove recepte, ki jih predložijo registrirani uporabniki, s čimer zagotavlja, da so recepti kakovostni in primerne vsebine.
+10. Brisanje receptov: administrator lahko izbriše recept, če ta ni primeren ali nepopolen.
  
