@@ -137,19 +137,7 @@ This project is licensed under the terms of the MIT license.
 
 ![System Architecture Diagram](dpu.jpg)
 
-## Scenarij
-
-1. Ogled receptov: Uporabnik si lahko ogleda podrobnosti izbranih receptov, vključno z njihovimi sestavinami in navodili za pripravo.
-2. Iskanje receptov: Uporabnik lahko išče recepte po različnih kriterijih. 
-3. Izbira filtra iskanja: Ta funkcionalnost razširja osnovno iskanje, tako da uporabnik lahko filtrira rezultate iskanja glede na sestavine, čas priprave, ocene itd.
-4. Komentiranje o receptih: Uporabnik lahko deli svoje mnenje in nasvete z drugimi uporabniki.
-5. Ocenjevanje receptov: Uporabnik lahko oceni recepte, kar pomaga drugim uporabnikom pri iskanju kakovostnih receptov.
-6. Objava receptov: Uporabnik lahko deli svoje lastne recepte.
-7. Urejanje receptov: Uporabnik lahko po potrebi ureja svoje recepte pred deljenjem ali kasneje.
-8. Dodajanje receptov med priljubljene: Uporabnik lahko doda posamezne recepte med priljubljene, kjer so lažje dostopni.
-9. Odobritev receptov: Administrator pregleda in odobrava ali zavrača nove recepte, ki jih predložijo registrirani uporabniki, s čimer zagotavlja, da so recepti kakovostni in primerne vsebine.
-10. Brisanje receptov: administrator lahko izbriše recept, če ta ni primeren ali nepopolen.
- 
+## Scenarij 
 
 | **Primer uporabe:**  Ogled receptov | **ID:** 1  |
 |---------------------------------|--------------------------------------------------------------|
@@ -227,3 +215,97 @@ This project is licensed under the terms of the MIT license.
 | **Izjeme**                      | |
 | 1.                              | Napaka pri shranjevanju podatkov v bazo - sistem prikaže sporočilo o napaki in predlaga ponovno poskus objave. |
 | 2.                              | Admin ne odobri recepta zaradi neprimerne vsebine - uporabnik prejme obvestilo z razlogom zavrnitve. |
+
+
+
+| **Primer uporabe:**  Objavi kuharski izziv | **ID:**   |
+|---------------------------------|--------------------------------------------------------------|
+| **Cilj**                        | Omogočiti adminu, da objavi nov kuharski izziv.              |
+| **Primarni akterji**            | Admin                                                       |
+| **Sekundarni akterji**          | Registrirani uporabniki                                      |
+| **Predpogoji**                  | Admin je prijavljen in ima pravice za objavo izzivov.        |
+| **Stanje sistema po PU**        | Kuharski izziv je objavljen in je dostopen registriranim uporabnikom.      |
+| **Scenarij**                    |                                                              |
+| 1.                              | Admin odpre stran za upravljanje kuharskih izzivov.          |
+| 2.                              | Admin vnese podrobnosti o izzivu (naslov, opis, datum).      |
+| 3.                              | Admin objavi izziv, ki postane dostopen uporabnikom.          |
+| **Alternativni tokovi**         |                                                              |
+| 1.                              | Če admin ne vnese vseh potrebnih podatkov, sistem zahteva, da jih vnese. |
+| **Izjeme**                      |                                                              |
+| 1.                              | Napaka pri objavi izziva - sistem prikaže obvestilo o napaki. |
+
+
+| **Primer uporabe:**  Prijava na kuharski izziv | **ID:**   |
+|---------------------------------|--------------------------------------------------------------|
+| **Cilj**                        | Omogočiti uporabnikom, da se prijavijo na kuharski izziv.    |
+| **Primarni akterji**            | Registrirani uporabnik                                       |
+| **Sekundarni akterji**          | Sistem                                                       |
+| **Predpogoji**                  | Uporabnik je registriran in prijavljen v sistemu.            |
+| **Stanje sistema po PU**        | Uporabnik je uspešno prijavljen na izziv.                     |
+| **Scenarij**                    |                                                              |
+| 1.                              | Uporabnik odpre seznam kuharskih izzivov.                     |
+| 2.                              | Uporabnik izbere izziv, na katerega se želi prijaviti.       |
+| 3.                              | Uporabnik klikne gumb "Prijavi se".                           |
+| 4.                              | Sistem potrdi prijavo uporabnika.                             |
+| **Alternativni tokovi**         |                                                              |
+| 1.                              | Če uporabnik ni prijavljen, ga sistem pozove k prijavi.      |
+| 2.                              | Če uporabnik že sodeluje v izzivu, ga sistem obvesti, da je že prijavljen. |
+| **Izjeme**                      |                                                              |
+| 1.                              | Napaka pri prijavi - sistem prikaže obvestilo o napaki.       |
+
+
+
+| **Primer uporabe:**  Dodajanje receptov v kuharski izziv | **ID:**   |
+|---------------------------------|--------------------------------------------------------------|
+| **Cilj**                        | Omogočiti uporabnikom, da oddajo svoje recepte v okviru kuharskega izziva. |
+| **Primarni akterji**            | Registrirani uporabnik                                       |
+| **Sekundarni akterji**          | Sistem                                                       |
+| **Predpogoji**                  | Uporabnik je prijavljen v sistem in prijavljen na kuharski izziv.      |
+| **Stanje sistema po PU**        | Recept je uspešno oddan in označen kot del kuharskega izziva. |
+| **Scenarij**                    |                                                              |
+| 1.                              | Uporabnik odpre stran za oddajo recepta v kuharski izziv.                      |
+| 2.                              | Uporabnik vnese podatke o receptu (ime, sestavine, postopek). |
+| 3.                              | Uporabnik priloži fotografijo končnega izdelka.               |
+| 4.                              | Uporabnik klikne gumb "Oddaj recept".                         |
+| 5.                              | Sistem shrani recept v bazo in označi, da je oddan za izziv.  |
+| **Alternativni tokovi**         |                                                              |
+| 1.                              | Če uporabnik ne izpolni vseh polj, sistem prikaže opozorilo. |
+| **Izjeme**                      |                                                              |
+| 1.                              | Napaka pri nalaganju slike - uporabnik prejme obvestilo o napaki. |
+
+
+
+| **Primer uporabe:**  Glasovanje za najboljši recept | **ID:**   |
+|---------------------------------|--------------------------------------------------------------|
+| **Cilj**                        | Omogočiti uporabnikom, da glasujejo za najboljši recept v okviru kuharskega izziva. |
+| **Primarni akterji**            | Registrirani uporabnik                                       |
+| **Sekundarni akterji**          | Sistem                                                        |
+| **Predpogoji**                  | Uporabnik je prijavljen in ima dostop do kuharskega izziva.    |
+| **Stanje sistema po PU**        | Glas je uspešno oddan in zabeležen v sistemu.                 |
+| **Scenarij**                    |                                                              |
+| 1.                              | Uporabnik si ogleda recepte oddane v okviru izziva.           |
+| 2.                              | Uporabnik izbere recept, za katerega želi glasovati.          |
+| 3.                              | Uporabnik klikne gumb "Glasuj".                               |
+| 4.                              | Sistem beleži glas in obvešča uporabnika o uspešnem oddaji glasu. |
+| **Alternativni tokovi**         |                                                              |
+| 1.                              | Če uporabnik že glasuje, ga sistem obvesti, da je že oddal glas. |
+| **Izjeme**                      |                                                              |
+| 1.                              | Napaka pri oddaji glasu - sistem prikaže obvestilo o napaki.  |
+
+
+
+| **Primer uporabe:**  Pregled rezultatov kuharskega izziva | **ID:**   |
+|---------------------------------|--------------------------------------------------------------|
+| **Cilj**                        | Omogočiti adminu, da pregleda rezultate kuharskega izziva in objavi zmagovalca. |
+| **Primarni akterji**            | Admin                                                       |
+| **Sekundarni akterji**          | Sistem                                      |
+| **Predpogoji**                  | Kuharski izziv se je zaključil, glasovanje je končano.       |
+| **Stanje sistema po PU**        | Zmagovalec izziva je objavljen in obveščen.                  |
+| **Scenarij**                    |                                                              |
+| 1.                              | Admin pregleda vse oddane recepte in glasove.                |
+| 2.                              | Admin izbere zmagovalca na podlagi glasov.                   |
+| 3.                              | Admin objavi zmagovalca na spletni strani.                   |
+| **Alternativni tokovi**         |                                                              |
+| 1.                              | Če so rezultati izenačeni, admin izbere več zmagovalcev. |
+| **Izjeme**                      |                                                              |
+| 1.                              | Napaka pri obdelavi rezultatov - sistem prikaže obvestilo o napaki. |
