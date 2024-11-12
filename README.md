@@ -194,27 +194,92 @@ This project is licensed under the terms of the MIT license.
 | 1.                              | Napaka pri uporabi filtrov - sistem prikaže sporočilo o napaki in predlaga ponovno izbiro filtrov. |
 
 
-| **Primer uporabe:**  Objava receptov| **ID:** 4  |
-|---------------------------------|--------------------------------------------------------------|
-| **Cilj**                        | Omogočiti registriranim uporabnikom, da objavijo nove recepte, ki jih mora pred objavo odobriti admin. |
-| **Primarni akterji**            | Registriran uporabnik |
-| **Sekundarni akterji**          | Admin |
-| **Predpogoji**                  | Uporabnik je registriran in prijavljen v sistem. |
-| **Stanje sistema po PU**        | Recept je odobren s strani admina in je javno objavljen na spletni strani. |
-| **Scenarij**                    |  |
-| 1.                              | Registriran uporabnik odpre stran za dodajanje novega recepta. |
-| 2.                              | Uporabnik vnese podatke o receptu, vključno z naslovom, opisom, sestavinami in navodili za pripravo. |
-| 3.                              | Uporabnik klikne na gumb "Objavi". |
-| 4.                              | Sistem shrani recept v bazo podatkov s statusom "Čaka na odobritev". |
-| 5.                              | Admin prejme obvestilo o novem receptu, ki čaka na odobritev. |
-| 6.                              | Admin pregleda recept in ga odobri ali zavrne. |
-| 7a.                             | **[Odobritev]**: Sistem spremeni status recepta na "Odobren" in ga prikaže na seznamu razpoložljivih receptov. |
-| 7b.                             | **[Zavrnitev]**: Sistem spremeni status recepta na "Zavrnjen" in o tem obvesti uporabnika z razlogom zavrnitve. |
-| **Alternativni tokovi**         | |
-| 1.                              | Če uporabnik ne izpolni vseh obveznih polj, sistem prikaže opozorilo in zahteva dopolnitev manjkajočih podatkov. |
-| **Izjeme**                      | |
-| 1.                              | Napaka pri shranjevanju podatkov v bazo - sistem prikaže sporočilo o napaki in predlaga ponovno poskus objave. |
-| 2.                              | Admin ne odobri recepta zaradi neprimerne vsebine - uporabnik prejme obvestilo z razlogom zavrnitve. |
+| **Primer uporabe:** Objava receptov | **ID:** 4                                                                                                        |
+| ----------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| **Cilj**                            | Omogočiti registriranim uporabnikom, da objavijo nove recepte, ki jih mora pred objavo odobriti admin.           |
+| **Primarni akterji**                | Registriran uporabnik                                                                                            |
+| **Sekundarni akterji**              | Admin                                                                                                            |
+| **Predpogoji**                      | Uporabnik je registriran in prijavljen v sistem.                                                                 |
+| **Stanje sistema po PU**            | Recept je odobren s strani admina in je javno objavljen na spletni strani.                                       |
+| **Scenarij**                        |                                                                                                                  |
+| 1.                                  | Registriran uporabnik odpre stran za dodajanje novega recepta.                                                   |
+| 2.                                  | Uporabnik vnese podatke o receptu, vključno z naslovom, opisom, sestavinami in navodili za pripravo.             |
+| 3.                                  | Uporabnik klikne na gumb "Objavi".                                                                               |
+| 4.                                  | Sistem shrani recept v bazo podatkov s statusom "Čaka na odobritev".                                             |
+| 5.                                  | Admin prejme obvestilo o novem receptu, ki čaka na odobritev.                                                    |
+| 6.                                  | Admin pregleda recept in ga odobri ali zavrne.                                                                   |
+| 7a.                                 | **[Odobritev]**: Sistem spremeni status recepta na "Odobren" in ga prikaže na seznamu razpoložljivih receptov.   |
+| 7b.                                 | **[Zavrnitev]**: Sistem spremeni status recepta na "Zavrnjen" in o tem obvesti uporabnika z razlogom zavrnitve.  |
+| **Alternativni tokovi**             |                                                                                                                  |
+| 1.                                  | Če uporabnik ne izpolni vseh obveznih polj, sistem prikaže opozorilo in zahteva dopolnitev manjkajočih podatkov. |
+| **Izjeme**                          |                                                                                                                  |
+| 1.                                  | Napaka pri shranjevanju podatkov v bazo - sistem prikaže sporočilo o napaki in predlaga ponovno poskus objave.   |
+| 2.                                  | Admin ne odobri recepta zaradi neprimerne vsebine - uporabnik prejme obvestilo z razlogom zavrnitve.             |
+
+| **Primer uporabe:** Brisanje receptov | **ID:** 5                                                                                                                                                   |
+| ------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Cilj**                              | Admin odstrani neprimerne ali neželene recepte s spletne strani, da ohrani kakovost in ustreznost vsebine.                                                  |
+| **Akterji**                           | Admin                                                                                                                                                       |
+| **Predpogoji**                        | Administrator je uspešno prijavljen v sistem z ustreznimi pravicami za upravljanje vsebine.; V bazi podatkov obstajajo recepti, ki so na voljo za brisanje. |
+| **Stanje sistema po PU**              | Recept je odstranjen iz podatkovne baze in ni več na voljo uporabnikom na spletu.                                                                           |
+| **Scenarij**                          |                                                                                                                                                             |
+| 1.                                    | Admin se prijavi v sistem z administratorskimi pravicami.                                                                                                   |
+| 2.                                    | Admin odpre zavihek za upravljanje receptov.                                                                                                                |
+| 3.                                    | Admin poišče recept, ki ga želi izbrisati, tako da ga najde na seznamu receptov.                                                                            |
+| 4.                                    | Admin klikne gumb za brisanje poleg izbranega recepta.                                                                                                      |
+| 5.                                    | Sistem prikaže opozorilo o potrditvi brisanja.                                                                                                              |
+| 6.                                    | Administrator potrdi brisanje recepta.                                                                                                                      |
+| 7.                                    | Sistem izbriše recept iz podatkovne baze in osveži seznam receptov.                                                                                         |
+| 8.                                    | Sistem prikaže obvestilo o uspešno izvedenem brisanju.                                                                                                      |
+
+| **Alternativni tokovi** | |
+| 1. | Preklic brisanja: Če administrator na opozorilnem oknu klikne gumb "Prekliči" namesto potrditve, sistem ne izvede nobene spremembe. Administrator se vrne na seznam receptov. |
+| **Izjeme** | |
+| 1. | Napaka pri nalaganju podatkov iz baze - sistem prikaže sporočilo o napaki in predlaga ponovno nalaganje strani.; 2. Če uporabnik nima ustreznih pravic za brisanje receptov, sistem prikaže sporočilo o pomanjkanju pravic in prepreči dostop do funkcije brisanja.|
+
+| **Primer uporabe:** Odobritev recepta | **ID:** 6                                                                                                                                                                                           |
+| ------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Cilj**                              | Admin pregleda in odobri novo dodan recept, tako da oceni primernost recepta preden ta postane viden vsem uporabnikom.                                                                              |
+| **Akterji**                           | Primarni: Admin; sekudarni: registriran uporabnik                                                                                                                                                   |
+| **Predpogoji**                        | 1.Uporabnik je dodal nov recept; 2. Recept čaka na odobritev s strani admina; 3. Admin je prijavljen v sistem z ustreznimi pravicami                                                                |
+| **Stanje sistema po PU**              | Recept je odobren in dostopen vsem uporabnikom spletne strani                                                                                                                                       |
+| **Scenarij**                          |                                                                                                                                                                                                     |
+| 1.                                    | Uporabnik doda nov recept prek obrazca za dodajanje receptov.                                                                                                                                       |
+| 2.                                    | Admin se prijavi v sistem in odpre zavihek za pregled in odobritev receptov                                                                                                                         |
+| 3.                                    | Admin izbere recept za pregled in pregleda ali recept ustreza merilam kakovosti.                                                                                                                    |
+| 4.                                    | Admin izbere možnost "Odobri" ali "Zavrni" za recept.                                                                                                                                               |
+| 5.                                    | Če administrator izbere "Odobri", sistem spremeni status recepta v "Odobren" in ga objavi na spletni strani. Če izbere "Zavrni", sistem spremeni status recepta v "Zavrnjen" in obvesti uporabnika. |
+| 6.                                    | Sistem obvesti uporabnika o odločitvi (odobritev ali zavrnitev) prek sporočila.                                                                                                                     |
+
+| **Alternativni tokovi** | |
+| 1. | Admin zavrže recept: če admin meni, da recept ima neprimerno vsebino oz. ne ustreza merilom kakovosti, izbere možnost “Zavrni” in doda komentar zakaj je bil recept zavrnjen. Uporabnik prejme sporočilo o neuspešni objavi recepta z obrazložitvijo. |
+| **Izjeme** | |
+| 1. | Napaka pri nalaganju podatkov iz baze - sistem prikaže sporočilo o napaki in predlaga ponovno nalaganje strani.; 2. Nezadostne pravice: če uporabnik nima določenih pravic za odobritev recepta, sistem prikaže sporočilo o pomanjkanju pravic in prepreči dostop do funkcije odobritve.|
+
+| **Primer uporabe:** Urejanje recepta | **ID:** 7                                                                                                                                    |
+| ------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Cilj**                             | Uporabnik posodobi svoj recept(npr. količina sestavin, slike…), da izboljša svoj recept.                                                     |
+| **Akterji**                          | Registriran uporabnik                                                                                                                        |
+| **Predpogoji**                       | 1.Uporabik je uspešno prijavljen v svoj profil; 2.Je že objavil vsaj en recept 3.Recept je že javno dostopen vsem uporabnikom spletne strani |
+
+|
+| **Stanje sistema po PU** |Recept je uspešno posodobljen in spremembe so vidne uporabnikom|
+| **Scenarij** | |
+| 1. |Uporabnik se prijavi v sistem in preide na zavihek, kjer ima dostop do svojih receptov.|
+| 2. | Uporabnik klikne možnost "Uredi" poleg izbranega recepta.|
+| 3. |Sistem prikaže obrazec za urejanje, ki vsebuje obstoječe podatke recepta.|
+| 4. | Uporabnik opravi želene spremembe recepta.|
+|5.| Ko je urejanje končano, uporabnik klikne možnost "Shrani spremembe".|
+|6.| Sistem preveri veljavnost vnesenih podatkov in posodobi recept v bazi podatkov.|
+|7.| Sistem prikaže obvestilo o uspešnem shranjevanju sprememb in posodobljeni recept postane javno dostopen na spletni strani.
+
+| **Alternativni tokovi** | |
+| 1. | Preklic urejanja: Če se uporabnik odloči, da ne želi shraniti sprememb, klikne možnost "Prekliči". Sistem zapre obrazec za urejanje brez shranjevanja sprememb in vrne uporabnika na seznam njegovih receptov.|
+|2.|Dodatno pregledovanje po urejanju:
+Če ureditev recepta zahteva pregled s strani administratorja (na primer zaradi spremembe opisa), sistem spremeni status recepta v "v čakanju" in obvesti administratorja za odobritev, kot da bi bil objavljen nov recept. Recept ni dostopen drugim uporabnikom, dokler ni odobren.
+|
+| **Izjeme** | |
+| 1. | Napaka pri nalaganju podatkov iz baze - sistem prikaže sporočilo o napaki in predlaga ponovno nalaganje strani.|
 
 
 
