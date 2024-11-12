@@ -137,7 +137,7 @@ This project is licensed under the terms of the MIT license.
 
 ![System Architecture Diagram](dpu.jpg)
 
-## Scenarij 
+## Scenarij 
 
 | **Primer uporabe:**  Ogled receptov | **ID:** 1  |
 |---------------------------------|--------------------------------------------------------------|
@@ -271,14 +271,60 @@ This project is licensed under the terms of the MIT license.
 |7.| Sistem prikaže obvestilo o uspešnem shranjevanju sprememb in posodobljeni recept postane javno dostopen na spletni strani.|
 | **Alternativni tokovi** | |
 | 1. | Preklic urejanja: Če se uporabnik odloči, da ne želi shraniti sprememb, klikne možnost "Prekliči". Sistem zapre obrazec za urejanje brez shranjevanja sprememb in vrne uporabnika na seznam njegovih receptov.|
-|2.|Dodatno pregledovanje po urejanju:
-Če ureditev recepta zahteva pregled s strani administratorja (na primer zaradi spremembe opisa), sistem spremeni status recepta v "v čakanju" in obvesti administratorja za odobritev, kot da bi bil objavljen nov recept. Recept ni dostopen drugim uporabnikom, dokler ni odobren.|
+|2.|Dodatno pregledovanje po urejanju: Če ureditev recepta zahteva pregled s strani administratorja (na primer zaradi spremembe opisa), sistem spremeni status recepta v "v čakanju" in obvesti administratorja za odobritev, kot da bi bil objavljen nov recept. Recept ni dostopen drugim uporabnikom, dokler ni odobren.|
 | **Izjeme** | |
 | 1. | Napaka pri nalaganju podatkov iz baze - sistem prikaže sporočilo o napaki in predlaga ponovno nalaganje strani.|
 
+| **Primer uporabe:** Komentiranje receptov | **ID:** 8                                                                                                      |
+|-------------------------------------------|---------------------------------------------------------------------------------------------------------------|
+| **Cilj**                                  | Uporabnik želi deliti svoje mnenje, nasvet ali izkušnjo v zvezi z določenim receptom, da bi s tem pomagal drugim uporabnikom ali delil svoje izkušnje. |
+| **Akterji**                               | Uporabnik, Sistem                                                                                             |
+| **Predpogoji**                            | Uporabnik mora biti prijavljen v sistem.                                                                      |
+| **Stanje sistema po PU**                  | Sistem shrani komentar in ga prikaže ob receptu, kjer je viden vsem uporabnikom.                              |
+| **Scenarij**                              |                                                                                                               |
+| 1.                                        | Uporabnik odpre stran recepta, kjer želi dodati komentar.                                                     |
+| 2.                                        | Uporabnik vnese svoj komentar v polje za komentarje.                                                          |
+| 3.                                        | Uporabnik pritisne gumb "Dodaj komentar".                                                                     |
+| 4.                                        | Sistem shrani komentar in ga prikaže ob receptu, da je na voljo vsem uporabnikom.                             |
+| **Alternativni tokovi**                   |                                                                                                               |
+| 1.                                        | Uporabnik poskuša dodati komentar brez prijave. Sistem ga pozove, da se prijavi, preden lahko nadaljuje.      |
+| **Izjeme**                                |                                                                                                               |
+| 1.                                        | Če sistem ne uspe shraniti komentarja, uporabnika obvesti o napaki in ga pozove, naj poskusi znova.           |
+
+| **Primer uporabe:** Ocenjevanje receptov | **ID:** 9                                                                                                      |
+|------------------------------------------|---------------------------------------------------------------------------------------------------------------|
+| **Cilj**                                 | Uporabnik želi oceniti kakovost recepta in s tem pomagati drugim pri odločitvi o preizkusu recepta.           |
+| **Akterji**                              | Uporabnik, Sistem                                                                                             |
+| **Predpogoji**                           | Uporabnik mora biti prijavljen.                                                                               |
+| **Stanje sistema po PU**                 | Sistem shrani oceno uporabnika.                                                                               |
+| **Scenarij**                             |                                                                                                               |
+| 1.                                       | Uporabnik odpre stran recepta in izbere opcijo za ocenjevanje.                                               |
+| 2.                                       | Uporabnik izbere število zvezdic za oceno.                                                                    |
+| 3.                                       | *Vključitev (include) komentarja k oceni:* Uporabnik ima možnost, da doda komentar k oceni in pojasni, zakaj je dal določeno oceno. |
+| 4.                                       | Sistem shrani oceno in komentar.                                                                              |
+| **Alternativni tokovi**                  |                                                                                                               |
+| 1.                                       | Uporabnik ne doda komentarja k oceni. Sistem shrani samo oceno.                                              |
+| 2.                                       | Uporabnik želi spremeniti svojo oceno. Sistem omogoča posodobitev ocene.                                      |
+| **Izjeme**                               |                                                                                                               |
+| 1.                                       | Sistem ne uspe shraniti ocene. Uporabnika obvesti o napaki.                                                   |
+
+| **Primer uporabe:** Dodajanje receptov med priljubljene | **ID:** 10                                                                                                      |
+|--------------------------------------------------------|---------------------------------------------------------------------------------------------------------------|
+| **Cilj**                                               | Uporabnik želi shraniti recept med priljubljene, da ga lahko kasneje hitro najde.                              |
+| **Akterji**                                            | Uporabnik, Sistem                                                                                             |
+| **Predpogoji**                                         | Uporabnik mora biti prijavljen v sistem.                                                                      |
+| **Stanje sistema po PU**                               | Recept se shrani na uporabnikov seznam priljubljenih receptov, ki je dostopen iz njegovega profila.            |
+| **Scenarij**                                           |                                                                                                               |
+| 1.                                                     | Uporabnik odpre stran recepta, ki ga želi dodati med priljubljene.                                             |
+| 2.                                                     | Uporabnik klikne na gumb "Dodaj med priljubljene".                                                             |
+| 3.                                                     | Sistem shrani recept na seznam priljubljenih receptov uporabnika.                                              |
+| **Alternativni tokovi**                                |                                                                                                               |
+| 1.                                                     | Uporabnik želi dodati recept med priljubljene, vendar ni prijavljen. Sistem ga pozove, da se prijavi.          |
+| **Izjeme**                                             |                                                                                                               |
+| 1.                                                     | Sistem ne uspe shraniti recepta kot priljubljenega. Uporabnik dobi obvestilo, da dodajanje ni bilo uspešno in naj poskusi znova. |
 
 
-| **Primer uporabe:**  Objavi kuharski izziv | **ID:** 8  |
+| **Primer uporabe:**  Objavi kuharski izziv | **ID:** 11  |
 |---------------------------------|--------------------------------------------------------------|
 | **Cilj**                        | Omogočiti adminu, da objavi nov kuharski izziv.              |
 | **Primarni akterji**            | Admin                                                       |
@@ -296,7 +342,7 @@ This project is licensed under the terms of the MIT license.
 
 
 
-| **Primer uporabe:**  Prijava na kuharski izziv | **ID:**  9 |
+| **Primer uporabe:**  Prijava na kuharski izziv | **ID:**  12 |
 |---------------------------------|--------------------------------------------------------------|
 | **Cilj**                        | Omogočiti uporabnikom, da se prijavijo na kuharski izziv.    |
 | **Primarni akterji**            | Registrirani uporabnik                                       |
@@ -316,7 +362,7 @@ This project is licensed under the terms of the MIT license.
 
 
 
-| **Primer uporabe:**  Dodajanje receptov v kuharski izziv | **ID:** 10 |
+| **Primer uporabe:**  Dodajanje receptov v kuharski izziv | **ID:** 13 |
 |---------------------------------|--------------------------------------------------------------|
 | **Cilj**                        | Omogočiti uporabnikom, da oddajo svoje recepte v okviru kuharskega izziva. |
 | **Primarni akterji**            | Registrirani uporabnik                                       |
@@ -336,7 +382,7 @@ This project is licensed under the terms of the MIT license.
 
 
 
-| **Primer uporabe:**  Glasovanje za najboljši recept | **ID:**  11 |
+| **Primer uporabe:**  Glasovanje za najboljši recept | **ID:**  14 |
 |---------------------------------|--------------------------------------------------------------|
 | **Cilj**                        | Omogočiti uporabnikom, da glasujejo za najboljši recept v okviru kuharskega izziva. |
 | **Primarni akterji**            | Registrirani uporabnik                                       |
@@ -355,7 +401,7 @@ This project is licensed under the terms of the MIT license.
 
 
 
-| **Primer uporabe:**  Pregled rezultatov kuharskega izziva | **ID:**  12 |
+| **Primer uporabe:**  Pregled rezultatov kuharskega izziva | **ID:**  15 |
 |---------------------------------|--------------------------------------------------------------|
 | **Cilj**                        | Omogočiti adminu, da pregleda rezultate kuharskega izziva in objavi zmagovalca. |
 | **Primarni akterji**            | Admin                                                       |
@@ -370,3 +416,4 @@ This project is licensed under the terms of the MIT license.
 | 1.                              | Če so rezultati izenačeni, admin izbere več zmagovalcev. |
 | **Izjeme**                      |                                                              |
 | 1.                              | Napaka pri obdelavi rezultatov - sistem prikaže obvestilo o napaki. |
+
