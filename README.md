@@ -293,3 +293,51 @@ This project is licensed under the terms of the MIT license.
 |
 | **Izjeme** | |
 | 1. | Napaka pri nalaganju podatkov iz baze - sistem prikaže sporočilo o napaki in predlaga ponovno nalaganje strani.|
+
+| **Primer uporabe:** Komentiranje receptov | **ID:** 8                                                                                                      |
+|-------------------------------------------|---------------------------------------------------------------------------------------------------------------|
+| **Cilj**                                  | Uporabnik želi deliti svoje mnenje, nasvet ali izkušnjo v zvezi z določenim receptom, da bi s tem pomagal drugim uporabnikom ali delil svoje izkušnje. |
+| **Akterji**                               | Uporabnik, Sistem                                                                                             |
+| **Predpogoji**                            | Uporabnik mora biti prijavljen v sistem.                                                                      |
+| **Stanje sistema po PU**                  | Sistem shrani komentar in ga prikaže ob receptu, kjer je viden vsem uporabnikom.                              |
+| **Scenarij**                              |                                                                                                               |
+| 1.                                        | Uporabnik odpre stran recepta, kjer želi dodati komentar.                                                     |
+| 2.                                        | Uporabnik vnese svoj komentar v polje za komentarje.                                                          |
+| 3.                                        | Uporabnik pritisne gumb "Dodaj komentar".                                                                     |
+| 4.                                        | Sistem shrani komentar in ga prikaže ob receptu, da je na voljo vsem uporabnikom.                             |
+| **Alternativni tokovi**                   |                                                                                                               |
+| 1.                                        | Uporabnik poskuša dodati komentar brez prijave. Sistem ga pozove, da se prijavi, preden lahko nadaljuje.      |
+| **Izjeme**                                |                                                                                                               |
+| 1.                                        | Če sistem ne uspe shraniti komentarja, uporabnika obvesti o napaki in ga pozove, naj poskusi znova.           |
+
+| **Primer uporabe:** Ocenjevanje receptov | **ID:** 9                                                                                                      |
+|------------------------------------------|---------------------------------------------------------------------------------------------------------------|
+| **Cilj**                                 | Uporabnik želi oceniti kakovost recepta in s tem pomagati drugim pri odločitvi o preizkusu recepta.           |
+| **Akterji**                              | Uporabnik, Sistem                                                                                             |
+| **Predpogoji**                           | Uporabnik mora biti prijavljen.                                                                               |
+| **Stanje sistema po PU**                 | Sistem shrani oceno uporabnika.                                                                               |
+| **Scenarij**                             |                                                                                                               |
+| 1.                                       | Uporabnik odpre stran recepta in izbere opcijo za ocenjevanje.                                               |
+| 2.                                       | Uporabnik izbere število zvezdic za oceno.                                                                    |
+| 3.                                       | *Vključitev (include) komentarja k oceni:* Uporabnik ima možnost, da doda komentar k oceni in pojasni, zakaj je dal določeno oceno. |
+| 4.                                       | Sistem shrani oceno in komentar.                                                                              |
+| **Alternativni tokovi**                  |                                                                                                               |
+| 1.                                       | Uporabnik ne doda komentarja k oceni. Sistem shrani samo oceno.                                              |
+| 2.                                       | Uporabnik želi spremeniti svojo oceno. Sistem omogoča posodobitev ocene.                                      |
+| **Izjeme**                               |                                                                                                               |
+| 1.                                       | Sistem ne uspe shraniti ocene. Uporabnika obvesti o napaki.                                                   |
+
+| **Primer uporabe:** Dodajanje receptov med priljubljene | **ID:** 10                                                                                                      |
+|--------------------------------------------------------|---------------------------------------------------------------------------------------------------------------|
+| **Cilj**                                               | Uporabnik želi shraniti recept med priljubljene, da ga lahko kasneje hitro najde.                              |
+| **Akterji**                                            | Uporabnik, Sistem                                                                                             |
+| **Predpogoji**                                         | Uporabnik mora biti prijavljen v sistem.                                                                      |
+| **Stanje sistema po PU**                               | Recept se shrani na uporabnikov seznam priljubljenih receptov, ki je dostopen iz njegovega profila.            |
+| **Scenarij**                                           |                                                                                                               |
+| 1.                                                     | Uporabnik odpre stran recepta, ki ga želi dodati med priljubljene.                                             |
+| 2.                                                     | Uporabnik klikne na gumb "Dodaj med priljubljene".                                                             |
+| 3.                                                     | Sistem shrani recept na seznam priljubljenih receptov uporabnika.                                              |
+| **Alternativni tokovi**                                |                                                                                                               |
+| 1.                                                     | Uporabnik želi dodati recept med priljubljene, vendar ni prijavljen. Sistem ga pozove, da se prijavi.          |
+| **Izjeme**                                             |                                                                                                               |
+| 1.                                                     | Sistem ne uspe shraniti recepta kot priljubljenega. Uporabnik dobi obvestilo, da dodajanje ni bilo uspešno in naj poskusi znova. |
