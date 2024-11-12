@@ -19,6 +19,8 @@ Spletna stran z recepti
 - [Testiranje](#testiranje)
 - [Kontribucija](#kontribucija)
 - [Licenca](#licenca)
+- [Diagram primera uporabe](#diagram-primera-uporabe)
+- [Scenarij](#scenarij)
 
 ## O projektu
 Aplikacija Moji Recepti je preprosta spletna stran za deljenje in iskanje receptov, namenjena kuharjem, ljubiteljem kulinarike in vsem, ki radi pripravljajo jedi doma. Uporabnikom omogoča preprost način za iskanje receptov po kategorijah, objavljanje lastnih receptov in dodajanje svojih priljubljenih receptov na seznam za kasnejšo uporabo. Zasnovana je kot platforma, kjer lahko uporabniki delijo kulinarične nasvete, ocenjujejo recepte in izmenjujejo ideje.
@@ -148,3 +150,80 @@ This project is licensed under the terms of the MIT license.
 9. Odobritev receptov: Administrator pregleda in odobrava ali zavrača nove recepte, ki jih predložijo registrirani uporabniki, s čimer zagotavlja, da so recepti kakovostni in primerne vsebine.
 10. Brisanje receptov: administrator lahko izbriše recept, če ta ni primeren ali nepopolen.
  
+
+| **Primer uporabe:**  Ogled receptov | **ID:** 1  |
+|---------------------------------|--------------------------------------------------------------|
+| **Cilj**                        | Omogočiti ogled receptov na spletni strani vsem uporabnikom. |
+| **Akterji**                     | Neregistriran uporabnik, registriran uporabnik, admin        |
+| **Predpogoji**                  | Uporabnik ima dostop do spletne strani in obstajajo recepti v bazi podatkov. |
+| **Stanje sistema po PU**        | Uporabnik vidi seznam receptov in lahko izbere posamezen recept za ogled podrobnosti. |
+| **Scenarij**                    |                                                              |
+| 1.                              | Uporabnik (ne glede na status) odpre spletno stran z recepti. |
+| 2.                              | Sistem prikaže seznam vseh razpoložljivih receptov.          |
+| 3.                              | Uporabnik klikne na določen recept za ogled podrobnosti.     |
+| 4.                              | Sistem prikaže podrobnosti izbranega recepta, vključno s sestavinami in postopkom priprave. |
+| **Alternativni tokovi**         |                                                              |
+| 1.                              | Če ni receptov v bazi, sistem prikaže sporočilo "Ni razpoložljivih receptov". |
+| **Izjeme**                      |                                                              |
+| 1.                              | Napaka pri nalaganju podatkov iz baze - sistem prikaže sporočilo o napaki in predlaga ponovno nalaganje strani. |
+
+
+| **Primer uporabe:**  Iskanje receptov| **ID:** 2  |
+|---------------------------------|--------------------------------------------------------------|
+| **Cilj**                        | Uporabniku omogočiti iskanje receptov na spletni strani glede na ključne besede. |
+| **Primarni akterji**            | Neregistriran uporabnik, registriran uporabnik |
+| **Sekundarni akterji**          | Sistem |
+| **Predpogoji**                  | Uporabnik ima dostop do spletne strani in obstajajo recepti v bazi podatkov. |
+| **Stanje sistema po PU**        | Sistem prikaže seznam receptov, ki ustrezajo iskalnemu kriteriju. |
+| **Scenarij**                    | |
+| 1.                              | Uporabnik vnese iskalno besedo v iskalno polje. |
+| 2.                              | Sistem obdeluje iskalno poizvedbo in išče ustrezne recepte v bazi podatkov. |
+| 3.                              | Sistem prikaže seznam receptov, ki ustrezajo iskalnemu kriteriju. |
+| 4.                              | Uporabnik lahko izbere določen recept za ogled podrobnosti. |
+| **Alternativni tokovi**         | |
+| 1.                              | Če sistem ne najde nobenih receptov, prikaže sporočilo "Ni najdenih receptov". |
+| **Izjeme**                      | |
+| 1.                              | Napaka pri iskanju podatkov - sistem prikaže sporočilo o napaki in predlaga ponovno iskanje. |
+
+
+| **Primer uporabe:**  Izbira filtra iskanja| **ID:** 3  |
+|---------------------------------|--------------------------------------------------------------|
+| **Cilj**                        | Uporabniku omogočiti izbiro filtrov za natančnejše iskanje receptov. |
+| **Primarni akterji**            | Registriran uporabnik, neregistriran uporabnik |
+| **Sekundarni akterji**          | Sistem |
+| **Predpogoji**                  | Uporabnik je na strani za iskanje receptov. Baza podatkov vsebuje različne recepte s pripadajočimi lastnostmi (npr. kategorija, čas priprave). |
+| **Stanje sistema po PU**        | Sistem prikaže seznam receptov, ki ustrezajo izbranim filtrom iskanja. |
+| **Scenarij**                    | |
+| 1.                              | Uporabnik odpre stran z možnostmi iskanja receptov. |
+| 2.                              | Uporabnik izbere filtre iskanja (npr. kategorija, čas priprave, sestavine). |
+| 3.                              | Sistem uporabi izbrane filtre in poišče ustrezne recepte v bazi podatkov. |
+| 4.                              | Sistem prikaže seznam receptov, ki ustrezajo izbranim filtrom. |
+| 5.                              | Uporabnik lahko izbere določen recept za ogled podrobnosti. |
+| **Alternativni tokovi**         | |
+| 1.                              | Če uporabnik ne izbere nobenih filtrov, sistem prikaže vse razpoložljive recepte. |
+| 2.                              | Če sistem ne najde nobenih receptov, prikaže sporočilo "Ni najdenih receptov". |
+| **Izjeme**                      | |
+| 1.                              | Napaka pri uporabi filtrov - sistem prikaže sporočilo o napaki in predlaga ponovno izbiro filtrov. |
+
+
+| **Primer uporabe:**  Objava receptov| **ID:** 4  |
+|---------------------------------|--------------------------------------------------------------|
+| **Cilj**                        | Omogočiti registriranim uporabnikom, da objavijo nove recepte, ki jih mora pred objavo odobriti admin. |
+| **Primarni akterji**            | Registriran uporabnik |
+| **Sekundarni akterji**          | Admin |
+| **Predpogoji**                  | Uporabnik je registriran in prijavljen v sistem. |
+| **Stanje sistema po PU**        | Recept je odobren s strani admina in je javno objavljen na spletni strani. |
+| **Scenarij**                    |  |
+| 1.                              | Registriran uporabnik odpre stran za dodajanje novega recepta. |
+| 2.                              | Uporabnik vnese podatke o receptu, vključno z naslovom, opisom, sestavinami in navodili za pripravo. |
+| 3.                              | Uporabnik klikne na gumb "Objavi". |
+| 4.                              | Sistem shrani recept v bazo podatkov s statusom "Čaka na odobritev". |
+| 5.                              | Admin prejme obvestilo o novem receptu, ki čaka na odobritev. |
+| 6.                              | Admin pregleda recept in ga odobri ali zavrne. |
+| 7a.                             | **[Odobritev]**: Sistem spremeni status recepta na "Odobren" in ga prikaže na seznamu razpoložljivih receptov. |
+| 7b.                             | **[Zavrnitev]**: Sistem spremeni status recepta na "Zavrnjen" in o tem obvesti uporabnika z razlogom zavrnitve. |
+| **Alternativni tokovi**         | |
+| 1.                              | Če uporabnik ne izpolni vseh obveznih polj, sistem prikaže opozorilo in zahteva dopolnitev manjkajočih podatkov. |
+| **Izjeme**                      | |
+| 1.                              | Napaka pri shranjevanju podatkov v bazo - sistem prikaže sporočilo o napaki in predlaga ponovno poskus objave. |
+| 2.                              | Admin ne odobri recepta zaradi neprimerne vsebine - uporabnik prejme obvestilo z razlogom zavrnitve. |
