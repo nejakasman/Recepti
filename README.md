@@ -420,3 +420,64 @@ This project is licensed under the terms of the MIT license.
 
 ## Razredni diagram
 ![System Class Diagram](uml.jpg)
+
+1. Recept
+
+Vloga in namen:
+Osrednji razred, ki predstavlja posamezen recept v aplikaciji. Vsebuje informacije, kot so naziv recepta, sestavine, navodila, kategorija in povezani komentarji.
+Ključne metode:
+dodajRecept(): void – Dodaja nov recept v sistem.
+urediRecept(): void – Omogoča urejanje obstoječega recepta.
+izbrisiRecept(): void – Briše recept iz sistema.
+
+2. PriljubljeniRecepti (deduje od Recept)
+
+Vloga in namen:
+Predstavlja razrede receptov, ki jih je uporabnik označil kot priljubljene. Podeduje osnovne atribute in metode iz razreda Recept ter doda lastnosti in funkcionalnosti za upravljanje priljubljenih receptov.
+Ključne metode:
+oznaciKotPriljubljeno(): void – Označi recept kot priljubljenega za določenega uporabnika.
+izbrisiIzPriljubljenih(): void – Odstrani recept iz priljubljenih receptov.
+3. Uporabnik
+
+Vloga in namen:
+Predstavlja registrirane uporabnike aplikacije, ki lahko dodajajo, ocenjujejo in komentirajo recepte ter sodelujejo v kuharskih izzivih. Vsebuje tudi informacijo, ali je uporabnik administrator.
+Ključne metode:
+registracija(): void – Registrira novega uporabnika v sistem.
+prijava(): void – Prijavi uporabnika v aplikacijo.
+odjava(): void – Odjavi uporabnika iz aplikacije.
+
+4. Komentar
+
+Vloga in namen:
+Predstavlja komentarje, ki jih uporabniki dodajo k receptom. Vsebuje oceno, besedilo komentarja, datum objave ter povezave do avtorja (uporabnika) in pripadajočega recepta.
+Ključne metode:
+komentiraj(): void – Omogoča dodajanje novega komentarja k receptu.
+oceni(): void – Omogoča ocenjevanje recepta (npr. s številčno oceno).
+izbrisiKomentar(): void – Briše obstoječ komentar.
+urediKomentar(): void – Ureja vsebino komentarja.
+
+5. KuharskiIzziv
+
+Vloga in namen:
+Predstavlja kuharske izzive, ki jih lahko uporabniki ustvarijo, se nanje prijavijo ali jim dodajo recepte. Vsak izziv ima specifične časovne omejitve in opis.
+Ključne metode:
+ustvariIzziv(): KuharskiIzziv – Ustvari nov kuharski izziv.
+urediIzziv(): KuharskiIzziv – Omogoča urejanje obstoječega izziva.
+izbrisiIzziv(): void – Briše obstoječ izziv.
+prijavaNaIzziv(): void – Prijavi uporabnika na določen kuharski izziv.
+dodajReceptNaIzziv(): void – Doda recept kot prispevek k izzivu.
+
+6. Kategorija (enumeracija)
+
+Vloga in namen:
+Predstavlja vnaprej določene kategorije receptov, kot so zajtrk, kosilo, večerja itd. Omogoča razvrščanje receptov.
+Ključne metode:
+Ta razred kot enumeracija nima dinamičnih metod, saj je preprosta taksonomija receptov.
+
+Ključne funkcionalnosti in vloga metod:
+Recept: Osnova za vse funkcionalnosti (dodajanje, urejanje, brisanje receptov).
+PriljubljeniRecepti: Personalizacija za uporabnike (upravljanje priljubljenih receptov).
+Uporabnik: Upravljanje uporabnikov (registracija, prijava, odjava).
+Komentar: Izboljšanje uporabniške izkušnje z interakcijo (komentiranje, ocenjevanje).
+KuharskiIzziv: Socialni vidik aplikacije (izzivi, tekmovanja).
+Kategorija: Uporabnikom omogoča filtriranje in iskanje receptov glede na vrsto jedi.
