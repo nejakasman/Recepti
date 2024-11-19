@@ -21,6 +21,7 @@ Spletna stran z recepti
 - [Licenca](#licenca)
 - [Diagram primera uporabe](#diagram-primera-uporabe)
 - [Scenarij](#scenarij)
+- [Razredni diagram](#razredni-diagram)
 
 ## O projektu
 Aplikacija Moji Recepti je preprosta spletna stran za deljenje in iskanje receptov, namenjena kuharjem, ljubiteljem kulinarike in vsem, ki radi pripravljajo jedi doma. Uporabnikom omogoča preprost način za iskanje receptov po kategorijah, objavljanje lastnih receptov in dodajanje svojih priljubljenih receptov na seznam za kasnejšo uporabo. Zasnovana je kot platforma, kjer lahko uporabniki delijo kulinarične nasvete, ocenjujejo recepte in izmenjujejo ideje.
@@ -417,3 +418,5 @@ This project is licensed under the terms of the MIT license.
 | **Izjeme**                      |                                                              |
 | 1.                              | Napaka pri obdelavi rezultatov - sistem prikaže obvestilo o napaki. |
 
+## Razredni diagram
+![System Class Diagram](uml.jpg)
