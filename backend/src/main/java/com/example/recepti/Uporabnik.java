@@ -2,9 +2,13 @@ package com.example.recepti;
 
 import com.example.recepti.Komentar;
 import jakarta.persistence.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+@Data
+@NoArgsConstructor
 @Entity
 @Table(name = "uporabnik")
 public class Uporabnik {
