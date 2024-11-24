@@ -35,7 +35,7 @@ public class ReceptiController {
     @PostMapping("/recepti/dodaj")
     public Recept postRecept(@RequestBody Recept recept) {
         logger.info("Post recept " + recept);
-        Recept newRecept = new Recept(recept.getIme(), recept.getOpis(), recept.getSestavine(), recept.getNavodila());
+        Recept newRecept = new Recept(recept.getIme(), recept.getSestavine(), recept.getNavodila());
         repository.save(newRecept);
         return newRecept;
     }
@@ -58,7 +58,6 @@ public class ReceptiController {
         return repository.findById(id)
                 .map(recept -> {
                     recept.setIme(updatedRecept.getIme());
-                    recept.setOpis(updatedRecept.getOpis());
                     recept.setSestavine(updatedRecept.getSestavine());
                     recept.setNavodila(updatedRecept.getNavodila());
                     return repository.save(recept);
