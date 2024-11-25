@@ -21,6 +21,7 @@ Spletna stran z recepti
 - [Licenca](#licenca)
 - [Diagram primera uporabe](#diagram-primera-uporabe)
 - [Scenarij](#scenarij)
+- [Razredni diagram](#razredni-diagram)
 
 ## O projektu
 Aplikacija Moji Recepti je preprosta spletna stran za deljenje in iskanje receptov, namenjena kuharjem, ljubiteljem kulinarike in vsem, ki radi pripravljajo jedi doma. Uporabnikom omogoča preprost način za iskanje receptov po kategorijah, objavljanje lastnih receptov in dodajanje svojih priljubljenih receptov na seznam za kasnejšo uporabo. Zasnovana je kot platforma, kjer lahko uporabniki delijo kulinarične nasvete, ocenjujejo recepte in izmenjujejo ideje.
@@ -137,7 +138,7 @@ This project is licensed under the terms of the MIT license.
 
 ![System Architecture Diagram](dpu.jpg)
 
-## Scenarij 
+## Scenarij 
 
 | **Primer uporabe:**  Ogled receptov | **ID:** 1  |
 |---------------------------------|--------------------------------------------------------------|
@@ -416,3 +417,68 @@ This project is licensed under the terms of the MIT license.
 | 1.                              | Če so rezultati izenačeni, admin izbere več zmagovalcev. |
 | **Izjeme**                      |                                                              |
 | 1.                              | Napaka pri obdelavi rezultatov - sistem prikaže obvestilo o napaki. |
+
+## Razredni diagram
+![System Class Diagram](uml.jpg)
+
+1. Recept
+
+Vloga in namen:
+Osrednji razred, ki predstavlja posamezen recept v aplikaciji. Vsebuje informacije, kot so naziv recepta, sestavine, navodila, kategorija in povezani komentarji.
+Ključne metode:
+dodajRecept(recept :Recept): void – Dodaja nov recept v sistem.
+urediRecept(recept :Recept): void – Omogoča urejanje obstoječega recepta.
+izbrisiRecept(id :int): void – Briše recept iz sistema.
+
+2. PriljubljeniRecepti (deduje od Recept)
+
+Vloga in namen:
+Predstavlja razrede receptov, ki jih je uporabnik označil kot priljubljene. Podeduje osnovne atribute in metode iz razreda Recept ter doda lastnosti in funkcionalnosti za upravljanje priljubljenih receptov.
+Ključne metode:
+oznaciKotPriljubljeno(recept :Recept): void – Označi recept kot priljubljenega za določenega uporabnika.
+izbrisiIzPriljubljenih(recept :Recept): void – Odstrani recept iz priljubljenih receptov.
+
+3. Uporabnik
+
+Vloga in namen:
+Predstavlja registrirane uporabnike aplikacije, ki lahko dodajajo, ocenjujejo in komentirajo recepte ter sodelujejo v kuharskih izzivih. Vsebuje tudi informacijo, ali je uporabnik administrator.
+Ključne metode:
+registracija(): void – Registrira novega uporabnika v sistem.
+prijava(): void – Prijavi uporabnika v aplikacijo.
+odjava(): void – Odjavi uporabnika iz aplikacije.
+
+4. Komentar
+
+Vloga in namen:
+Predstavlja komentarje, ki jih uporabniki dodajo k receptom. Vsebuje oceno, besedilo komentarja, datum objave ter povezave do avtorja (uporabnika) in pripadajočega recepta.
+Ključne metode:
+komentiraj(recept :Recept): void – Omogoča dodajanje novega komentarja k receptu.
+oceni(recept :Recept): void – Omogoča ocenjevanje recepta (npr. s številčno oceno).
+izbrisiKomentar(komentar :Komentar): void – Briše obstoječ komentar.
+urediKomentar(komentar :Komentar): void – Ureja vsebino komentarja.
+
+5. KuharskiIzziv
+
+Vloga in namen:
+Predstavlja kuharske izzive, ki jih lahko uporabniki ustvarijo, se nanje prijavijo ali jim dodajo recepte. Vsak izziv ima specifične časovne omejitve in opis.
+Ključne metode:
+ustvariIzziv(kuharskiIzziv :KuharskiIzziv): void – Ustvari nov kuharski izziv.
+urediIzziv(kuharskiIzziv :KuharskiIzziv): void – Omogoča urejanje obstoječega izziva.
+izbrisiIzziv(id :int): void – Briše obstoječ izziv.
+prijavaNaIzziv(uporabnik :Uporabnik): void – Prijavi uporabnika na določen kuharski izziv.
+dodajReceptNaIzziv(recept :Recept): void – Doda recept kot prispevek k izzivu.
+
+6. Kategorija (enumeracija)
+
+Vloga in namen:
+Predstavlja vnaprej določene kategorije receptov, kot so zajtrk, kosilo, večerja itd. Omogoča razvrščanje receptov.
+Ključne metode:
+Ta razred kot enumeracija nima dinamičnih metod, saj je preprosta taksonomija receptov.
+
+### Ključne funkcionalnosti in vloga metod:
+Recept: Osnova za vse funkcionalnosti (dodajanje, urejanje, brisanje receptov).
+PriljubljeniRecepti: Personalizacija za uporabnike (upravljanje priljubljenih receptov).
+Uporabnik: Upravljanje uporabnikov (registracija, prijava, odjava).
+Komentar: Izboljšanje uporabniške izkušnje z interakcijo (komentiranje, ocenjevanje).
+KuharskiIzziv: Socialni vidik aplikacije (izzivi, tekmovanja).
+Kategorija: Uporabnikom omogoča filtriranje in iskanje receptov glede na vrsto jedi.
