@@ -38,9 +38,15 @@ public class Recept {
     @JoinColumn(name = "kuharski_izziv_id")
     private KuharskiIzziv kuharskiIzziv;
 
+<<<<<<< Updated upstream
     @ManyToOne
     @JoinColumn(name = "uporabnik_id")
     private Uporabnik uporabnik; // Povezava z uporabnikom
+=======
+    // Dodajamo novi polji za povprečno oceno in število ocen
+    private double povprecnaOcena = 0.0;  // Privzeto vrednost postavimo na 0.0
+    private int stOcen = 0;  // Privzeto število ocen je 0
+>>>>>>> Stashed changes
 
     public Recept(String ime, List<String> navodila, List<String> sestavine) {
         this.id = id;
