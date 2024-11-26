@@ -37,6 +37,9 @@ public class Recept {
     @JoinColumn(name = "kuharski_izziv_id")
     private KuharskiIzziv kuharskiIzziv;
 
+    @ManyToOne
+    @JoinColumn(name = "uporabnik_id")
+    private Uporabnik uporabnik; // Povezava z uporabnikom
 
     public Recept(String ime, List<String> navodila, List<String> sestavine) {
         this.id = id;
