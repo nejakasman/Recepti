@@ -1,6 +1,6 @@
 package com.example.recepti;
-import jakarta.persistence.*;
 
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
@@ -21,7 +21,36 @@ public class PriljubljeniRecepti {
     @JoinColumn(name = "recept_id", nullable = false)
     private Recept recept;
 
-    // Getterji, setterji in metode
+    // Getterji in setterji
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public LocalDateTime getDatumDodajanja() {
+        return datumDodajanja;
+    }
+
+    public void setDatumDodajanja(LocalDateTime datumDodajanja) {
+        this.datumDodajanja = datumDodajanja;
+    }
+
+    public Uporabnik getUporabnik() {
+        return uporabnik;
+    }
+
+    public void setUporabnik(Uporabnik uporabnik) {
+        this.uporabnik = uporabnik;
+    }
+
+    public Recept getRecept() {
+        return recept;
+    }
+
+    public void setRecept(Recept recept) {
+        this.recept = recept;
+    }
 }
-
-

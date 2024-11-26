@@ -26,5 +26,25 @@ public class Komentar {
     @JoinColumn(name = "recept_id")
     private Recept recept;
 
+    public double getOcena() {
+
+        return 0;
+    }
+
+    public void setUporabnik(Uporabnik uporabnik) {
+    }
+
+    public void setRecept(Recept recept) {
+    }
+
+    public void setKomentar(String komentarBesedilo) {
+    }
+
+    public void setOcena(float ocena) {
+    }
+
+    public void setDatumObjave(LocalDateTime now) {
+    }
+
     // Getterji, setterji in metode
 }
