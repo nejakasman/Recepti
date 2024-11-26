@@ -1,43 +1,88 @@
 package com.example.recepti;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
+import java.util.Optional;
+import java.util.logging.Logger;
+
+@CrossOrigin
 @RestController
-@RequestMapping("/api/challenges")
+@RequestMapping("/kuharski-izziv")  // Prefiks za vse URL-je v tem kontrolerju
 public class KuharskiIzzivController {
+
+    Logger logger = Logger.getLogger(KuharskiIzzivController.class.getName());
+
     @Autowired
-    private KuharskiIzzivService kuharskiIzzivService;
-    // Get vse izzive
+    private KuharskiIzzivRepository kuharskiIzzivRepository;
+
+    // Prikaz vseh kuharskih izzivov
     @GetMapping
-    public List<KuharskiIzziv> getAllChallenges() {
-        return kuharskiIzzivService.getAllChallenges();
+    public List<KuharskiIzziv> getAllIzzivi() {
+        logger.info("Getting all Kuharski Izziv data");
+        return kuharskiIzzivRepository.findAll();
     }
-    // Get izziv po ID
+
+    // Prikaz kuharskega izziva po ID-ju
     @GetMapping("/{id}")
-    public ResponseEntity<KuharskiIzziv> getChallengeById(@PathVariable int id) {
-        return kuharskiIzzivService.getChallengeById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<KuharskiIzziv> getIzzivById(@PathVariable("id") int id) {
+        logger.info("Get Kuharski Izziv by id: " + id);
+        Optional<KuharskiIzziv> izziv = kuharskiIzzivRepository.findById(id);
+        return izziv.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
-    // ustvari nov izziv
+
+    // Dodajanje novega kuharskega izziva
     @PostMapping
-    public KuharskiIzziv createChallenge(@RequestBody KuharskiIzziv kuharskiIzziv) {
-        return kuharskiIzzivService.createChallenge(kuharskiIzziv);
+    public ResponseEntity<String> dodajIzziv(@RequestBody KuharskiIzziv kuharskiIzziv) {
+        logger.info("Adding new Kuharski Izziv: " + kuharskiIzziv);
+
+        // Preverimo, ali so vsi potrebni podatki prisotni
+        if (kuharskiIzziv.getNaziv() == null || kuharskiIzziv.getOpis() == null || kuharskiIzziv.getTrajanjeDo() == null) {
+            return ResponseEntity.badRequest().body("Vsi podatki (naziv, opis, trajanje) so obvezni.");
+        }
+
+        kuharskiIzzivRepository.save(kuharskiIzziv);
+        return ResponseEntity.ok("Kuharski izziv uspešno dodan");
     }
-    // posodobi izziv
+
+    // Posodabljanje kuharskega izziva
     @PutMapping("/{id}")
-    public ResponseEntity<KuharskiIzziv> updateChallenge(@PathVariable int id, @RequestBody KuharskiIzziv updatedChallenge) {
-        try {
-            return ResponseEntity.ok(kuharskiIzzivService.updateChallenge(id, updatedChallenge));
-        } catch (RuntimeException e) {
+    public ResponseEntity<String> urediIzziv(@PathVariable("id") int id, @RequestBody KuharskiIzziv kuharskiIzziv) {
+        logger.info("Updating Kuharski Izziv with id: " + id);
+
+        Optional<KuharskiIzziv> existingIzziv = kuharskiIzzivRepository.findById(id);
+        if (existingIzziv.isPresent()) {
+            KuharskiIzziv updatedIzziv = existingIzziv.get();
+            updatedIzziv.setNaziv(kuharskiIzziv.getNaziv());
+            updatedIzziv.setOpis(kuharskiIzziv.getOpis());
+            updatedIzziv.setTrajanjeDo(kuharskiIzziv.getTrajanjeDo());
+            kuharskiIzzivRepository.save(updatedIzziv);
+            return ResponseEntity.ok("Kuharski izziv uspešno posodobljen");
+        } else {
             return ResponseEntity.notFound().build();
         }
     }
-    // zbrise izziv
+
+    // Brisanje kuharskega izziva
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteChallenge(@PathVariable int id) {
-        kuharskiIzzivService.deleteChallenge(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<String> izbrisiIzziv(@PathVariable("id") int id) {
+        logger.info("Deleting Kuharski Izziv with id: " + id);
+
+        Optional<KuharskiIzziv> existingIzziv = kuharskiIzzivRepository.findById(id);
+        if (existingIzziv.isPresent()) {
+            kuharskiIzzivRepository.deleteById(id);
+            return ResponseEntity.ok("Kuharski izziv uspešno izbrisan");
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    // Iskanje kuharskih izzivov po imenu
+    @GetMapping("/search")
+    public List<KuharskiIzziv> searchIzziv(@RequestParam String naziv) {
+        logger.info("Searching for Kuharski Izziv with name containing: " + naziv);
+        return kuharskiIzzivRepository.findByNazivContaining(naziv);
     }
 }

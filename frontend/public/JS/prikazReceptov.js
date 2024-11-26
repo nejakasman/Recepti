@@ -22,23 +22,21 @@ function fetchRecepti() {
 // Prikaži seznam receptov
 function displayRecepti(recepti) {
     const receptiList = document.getElementById('recepti');
-    receptiList.innerHTML = ''; // Počisti seznam
+    receptiList.innerHTML = ''; 
 
     if (recepti.length === 0) {
-        receptiList.innerHTML = '<p>Ni rezultatov.</p>'; // Prikaz sporočila, če ni rezultatov
+        receptiList.innerHTML = '<p>Ni rezultatov.</p>'; 
         return;
     }
 
     recepti.forEach(recept => {
         const li = document.createElement('li');
-        li.textContent = `${recept.ime}: ${recept.opis}`;
+        li.textContent = `${recept.ime}: ${recept.navodila}`;
         
-        // Gumb za brisanje
         const deleteButton = document.createElement('button');
         deleteButton.textContent = 'Izbriši';
         deleteButton.onclick = () => deleteRecept(recept.id);
 
-        // Gumb za urejanje
         const editButton = document.createElement('button');
         editButton.textContent = 'Uredi';
         editButton.onclick = () => showUpdateForm(recept); 
@@ -68,9 +66,9 @@ function deleteRecept(id) {
 
 // urejanje recepta
 function showUpdateForm(recept) {
+    console.log(recept);
     document.getElementById('update-section').style.display = 'block';
     document.getElementById('update-ime').value = recept.ime;
-    document.getElementById('update-opis').value = recept.opis;
     document.getElementById('update-sestavine').value = recept.sestavine;
     document.getElementById('update-navodila').value = recept.navodila;
 
@@ -82,10 +80,11 @@ function updateRecept() {
     const id = document.getElementById('update-form').dataset.receptId;
     const updatedRecept = {
         ime: document.getElementById('update-ime').value,
-        opis: document.getElementById('update-opis').value,
         sestavine: document.getElementById('update-sestavine').value,
         navodila: document.getElementById('update-navodila').value
     };
+
+    console.log(updatedRecept); // Preverite vrednosti, ki se pošljejo
 
     fetch(`http://localhost:8080/recepti/update/${id}`, {
         method: 'PUT',
@@ -96,7 +95,7 @@ function updateRecept() {
     })
     .then(response => {
         if (response.ok) {
-            fetchRecepti(); 
+            fetchRecepti();
             document.getElementById('update-section').style.display = 'none';
         } else {
             throw new Error('Failed to update the recept');
@@ -106,6 +105,7 @@ function updateRecept() {
         console.error('There has been a problem with your update operation:', error);
     });
 }
+
 
 // Dodaj iskalno funkcionalnost
 async function searchRecept() {

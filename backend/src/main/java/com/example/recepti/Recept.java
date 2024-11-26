@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 import com.example.recepti.*;
 
@@ -21,11 +22,11 @@ public class Recept {
 
     @ElementCollection
     @CollectionTable(name = "navodila", joinColumns = @JoinColumn(name = "recept_id"))
-    private List<String> navodila;
+    private List<String> navodila = new ArrayList<>();
 
     @ElementCollection
     @CollectionTable(name = "sestavine", joinColumns = @JoinColumn(name = "recept_id"))
-    private List<String> sestavine;
+    private List<String> sestavine = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     private Kategorija kategorija;

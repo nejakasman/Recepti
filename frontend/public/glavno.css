@@ -137,3 +137,27 @@ footer {
 #recipe-search button {
     padding: 12px 25px;
 }
+
+#izziviList {
+    list-style: none;
+    padding: 0;
+}
+
+#izziviList li {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+#izziviList li button {
+    margin-left: 10px;
+    background: #ff5c5c;
+    border-radius: 5px;
+}
+
+#izziviList li button:hover {
+    background: #ff3b3b;
+}
+

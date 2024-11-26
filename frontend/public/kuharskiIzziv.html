@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="sl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kuharski Izzivi</title>
+    <link rel="stylesheet" href="glavno.css">
+</head>
+<body>
+    <main>
+    <h1>Kuharski Izzivi</h1>
+
+    <h2>Dodaj nov kuharski izziv</h2>
+    <form id="dodajIzziv">
+        <label for="izzivIme">Ime izziva:</label>
+        <input type="text" id="izzivIme" required><br><br>
+
+        <label for="izzivOpis">Opis izziva:</label>
+        <textarea id="izzivOpis" required></textarea><br><br>
+
+        <label for="izzivTrajanjeDo">Trajanje do (datum):</label>
+        <input type="date" id="izzivTrajanjeDo" required><br><br>
+
+        <button type="submit">Dodaj izziv</button>
+    </form>
+
+    
+    <form id="urediIzziv" style="display:none;">
+        <h2>Uredi kuharski izziv</h2>
+        <input type="hidden" id="izzivId">
+        <label for="novoIme">Novo ime izziva:</label>
+        <input type="text" id="novoIme" required><br><br>
+
+        <label for="novoOpis">Nov opis izziva:</label>
+        <textarea id="novoOpis" required></textarea><br><br>
+
+        <label for="novoTrajanjeDo">Novo trajanje do (datum):</label>
+        <input type="date" id="novoTrajanjeDo" required><br><br>
+
+        <button type="submit">Posodobi izziv</button>
+    </form>
+
+    <!-- Seznam kuharskih izzivov -->
+    <h2>Seznam kuharskih izzivov</h2>
+    <ul id="izziviList">
+    </ul>
+    </main>
+
+    <script src="./JS/kuharskiIzziv.js"></script>
+</body>
+</html>

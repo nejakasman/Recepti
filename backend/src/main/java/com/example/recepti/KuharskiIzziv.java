@@ -1,12 +1,12 @@
 package com.example.recepti;
 
-import com.example.recepti.Recept;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 @Data
@@ -29,10 +29,16 @@ public class KuharskiIzziv {
 
     @Setter
     @Getter
-    private LocalDateTime trajanjeDo;
+    private LocalDate trajanjeDo;
 
     @OneToMany(mappedBy = "kuharskiIzziv", cascade = CascadeType.ALL)
     private List<Recept> recepti;
+
+    public KuharskiIzziv(String naziv, String opis, LocalDate trajanjeDo) {
+        this.naziv = naziv;
+        this.opis = opis;
+        this.trajanjeDo = trajanjeDo;
+    }
 
     @Override
     public String toString() {
