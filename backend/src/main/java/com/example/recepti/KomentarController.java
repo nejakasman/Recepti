@@ -20,7 +20,7 @@ public class KomentarController {
     private ReceptRepository receptRepository;
 
     @Autowired
-    private UporabnikRepository uporabnikRepository;
+    private UporabnikRepository.UporabnikRepository uporabnikRepository;
 
     // Dodaj komentar k receptu
     @PostMapping("/dodaj")
