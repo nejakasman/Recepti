@@ -41,6 +41,7 @@ function displayRecepti(recepti) {
     deleteButton.textContent = "Izbriši";
     deleteButton.onclick = () => deleteRecept(recept.id);
 
+<<<<<<< Updated upstream
     // Gumb za urejanje
     const editButton = document.createElement("button");
     editButton.textContent = "Uredi";
@@ -50,7 +51,84 @@ function displayRecepti(recepti) {
     li.appendChild(editButton);
     receptiList.appendChild(li);
   });
+=======
+        // Gumb za ocenjevanje
+        const ratingButton = document.createElement('button');
+        ratingButton.textContent = 'Ocenite recept';
+        ratingButton.onclick = () => rateRecept(recept.id);
+
+        // Gumb za komentar
+        const commentButton = document.createElement('button');
+        commentButton.textContent = 'Komentiraj';
+        commentButton.onclick = () => commentOnRecept(recept.id);
+
+        li.appendChild(deleteButton);
+        li.appendChild(editButton);
+        li.appendChild(ratingButton);
+        li.appendChild(commentButton);
+        receptiList.appendChild(li);
+    });
+>>>>>>> Stashed changes
 }
+
+// Ocenjevanje recepta
+function rateRecept(receptId) {
+    const ocena = prompt('Vnesite oceno od 1 do 5:');
+    if (ocena >= 1 && ocena <= 5) {
+        fetch('http://localhost:8080/api/komentarji/oceni', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                receptId: receptId,
+                ocena: parseFloat(ocena)
+            })
+        })
+        .then(response => {
+            if (response.ok) {
+                alert('Recept je bil ocenjen!');
+                fetchRecepti();
+            } else {
+                alert('Napaka pri ocenjevanju recepta');
+            }
+        })
+        .catch(error => {
+            console.error('Napaka pri ocenjevanju recepta:', error);
+        });
+    } else {
+        alert('Ocena mora biti med 1 in 5');
+    }
+}
+
+// Komentiranje recepta
+function commentOnRecept(receptId) {
+    const komentar = prompt('Vnesite vaš komentar:');
+    if (komentar) {
+        fetch('http://localhost:8080/api/komentarji/dodaj', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                receptId: receptId,
+                komentar: komentar
+            })
+        })
+        .then(response => {
+            if (response.ok) {
+                alert('Komentar je bil dodan!');
+                fetchRecepti();
+            } else {
+                alert('Napaka pri dodajanju komentarja');
+            }
+        })
+        .catch(error => {
+            console.error('Napaka pri dodajanju komentarja:', error);
+        });
+    }
+}
+
 
 // Brisanje recepta
 function deleteRecept(id) {

@@ -1,27 +1,42 @@
 package com.example.recepti;
 
-// DTO za request
 public class KomentarRequest {
-    private Uporabnik uporabnik;
-    private Recept recept;
+
+    private int uporabnikId;
+    private int receptId;
     private String komentar;
     private float ocena;
 
-    public Uporabnik getUporabnik() {
-        return null;
+    // Getterji in setterji
+    public long getUporabnikId() {
+        return uporabnikId;
     }
 
-    public Recept getRecept() {
-        return null;
+    public void setUporabnikId(int uporabnikId) {
+        this.uporabnikId = uporabnikId;
+    }
+
+    public int getReceptId() {
+        return receptId;
+    }
+
+    public void setReceptId(int receptId) {
+        this.receptId = receptId;
     }
 
     public String getKomentar() {
-        return "";
+        return komentar;
+    }
+
+    public void setKomentar(String komentar) {
+        this.komentar = komentar;
     }
 
     public float getOcena() {
-        return 0;
+        return ocena;
     }
 
-    // Getters and setters
+    public void setOcena(float ocena) {
+        this.ocena = ocena;
+    }
 }
