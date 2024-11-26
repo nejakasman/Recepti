@@ -119,3 +119,29 @@ async function searchRecept() {
         console.error('Failed to fetch search results');
     }
 }
+
+// Dodajanje recepta med priljubljene
+function dodajMedPriljubljene(receptId) {
+    const uporabnik = 'userId';  // To mora biti pridobljeno iz trenutne seje uporabnika (npr. preko localStorage)
+
+    fetch('http://localhost:8080/api/priljubljeniRecepti/dodaj', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            uporabnik: uporabnik,
+            receptId: receptId
+        })
+    })
+    .then(response => {
+        if (response.ok) {
+            alert('Recept je bil dodan med priljubljene!');
+        } else {
+            throw new Error('Napaka pri dodajanju med priljubljene');
+        }
+    })
+    .catch(error => {
+        console.error('Napaka pri dodajanju recepta med priljubljene:', error);
+    });
+}
