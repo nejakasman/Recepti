@@ -31,23 +31,38 @@ function displayRecepti(recepti) {
 
     recepti.forEach(recept => {
         const li = document.createElement('li');
-        li.textContent = '${recept.ime}';
+        li.textContent = `${recept.ime}`;  // Tukaj uporabljamo backticks za interpolacijo spremenljivke
         
+        // Gumb za brisanje
         const deleteButton = document.createElement('button');
         deleteButton.textContent = 'Izbriši';
         deleteButton.onclick = () => deleteRecept(recept.id);
 
+        // Gumb za urejanje
         const editButton = document.createElement('button');
         editButton.textContent = 'Uredi';
         editButton.onclick = () => showUpdateForm(recept); 
 
+        // Gumb za oceno
+        const ratingButton = document.createElement('button');
+        ratingButton.textContent = 'Ocenite';
+        ratingButton.onclick = () => rateRecept(recept.id);  // Klik za ocenjevanje
+
+        // Gumb za komentar
+        const commentButton = document.createElement('button');
+        commentButton.textContent = 'Komentiraj';
+        commentButton.onclick = () => commentOnRecept(recept.id);  // Klik za dodajanje komentarja
+
+        // Dodajanje gumbov v seznam
         li.appendChild(deleteButton);
         li.appendChild(editButton);
         li.appendChild(ratingButton);
         li.appendChild(commentButton);
         receptiList.appendChild(li);
     });
+    
 }
+
 
 
 // Ocenjevanje recepta

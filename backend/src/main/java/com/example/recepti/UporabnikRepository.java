@@ -10,7 +10,6 @@ public interface UporabnikRepository extends JpaRepository<Uporabnik, Integer> {
     Uporabnik findByUporabniskoIme(String uporabniskoIme);
 
     // Poišči uporabnika po emailu
-    Uporabnik findByEmail(String email);
+    Uporabnik findByEmail(String email);}
 
-}
 
