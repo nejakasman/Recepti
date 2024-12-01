@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/recepti.iml" filepath="$PROJECT_DIR$/.idea/recepti.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/Recepti.iml" filepath="$PROJECT_DIR$/.idea/Recepti.iml" />
+      <module fileurl="file://$PROJECT_DIR$/backend/recepti.iml" filepath="$PROJECT_DIR$/backend/recepti.iml" />
     </modules>
   </component>
 </project>

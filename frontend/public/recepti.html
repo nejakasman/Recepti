@@ -6,12 +6,8 @@
     <link rel="stylesheet" href="glavno.css" />
     <title>Spletna stran z recepti</title>
     <script src="./JS/prikazReceptov.js"></script>
-</head>
-<body>
     
-    <script src="./JS/prikazReceptov.js"></script>
-    <!-- Dodaj JavaScript datoteko -->
-  </head>
+</head>
   <body>
     <header>
         <h1>Recepti</h1>
@@ -24,49 +20,33 @@
                 
             </ul>
         </nav> 
-      <h1>Recepti</h1>
-      <nav>
-        <ul>
-          <li><a href="recepti.html">Domov</a></li>
-          <li><a href="DodajRecept.html">Dodaj recept</a></li>
-          <li><a href="#contact">Kontakt</a></li>
-        </ul>
-      </nav>
     </header>
     <main>
-      <section id="recipe-search">
-        <h2>Iskanje receptov</h2>
-        <input
-          type="text"
-          id="search-input"
-          placeholder="Išči po imenu recepta"
-        />
-        <button onclick="searchRecept()">Išči</button>
-      </section>
-      <section id="recepti">
-        <h2>Seznam receptov</h2>
-        <!-- Tukaj bodo prikazani recepti -->
-      </section>
-
-      <section id="update-section" style="display: none">
-        <h3>Posodobi recept</h3>
-        <form id="update-form">
-          <label for="update-ime">Ime recepta:</label>
-          <input type="text" id="update-ime" name="ime" />
-          <br />
-          <label for="update-opis">Opis:</label>
-          <input type="text" id="update-opis" name="opis" />
-          <br />
-          <label for="update-sestavine">Sestavine:</label>
-          <input type="text" id="update-sestavine" name="sestavine" />
-          <br />
-          <label for="update-navodila">Navodila:</label>
-          <input type="text" id="update-navodila" name="navodila" />
-          <br />
-          <button type="button" onclick="updateRecept()">Posodobi</button>
-        </form>
-      </section>
-
+        <section id="recipe-search">
+            <h2>Iskanje receptov</h2>
+            <input type="text" id="search-input" placeholder="Išči po imenu recepta">
+            <button onclick="searchRecept()">Išči</button>
+        </section>
+        <section id="recepti">
+            <h2>Seznam receptov</h2>
+            <!-- Tukaj bodo prikazani recepti -->
+        </section>
+        <section id="update-section" style="display: none;">
+            <h3>Posodobi recept</h3>
+            <form id="update-form">
+                <label for="update-ime">Ime:</label>
+                <input type="text" id="update-ime" name="ime">
+                <br>
+                <label for="update-sestavine">Sestavine:</label>
+                <input type="text" id="update-sestavine" name="sestavine">
+                <br>
+                <label for="update-navodila">Navodila:</label>
+                <input type="text" id="update-navodila" name="navodila">
+                <br>
+                <button type="button" onclick="updateRecept()">Posodobi</button>
+            </form>
+        </section>
+    
       <section id="challenges">
         <h2>Izzivi</h2>
         <ul id="challenge-list">
@@ -102,6 +82,6 @@
     <footer>
       <p>&copy; 2024 Spletna stran z recepti</p>
     </footer>
-    <script src="prikazReceptov.js"></script>
   </body>
 </html>
+

@@ -1,47 +1,42 @@
-document.addEventListener("DOMContentLoaded", () => {
-  fetchRecepti();
+document.addEventListener('DOMContentLoaded', () => {
+    fetchRecepti();
 });
 
 // Pridobi vse recepte
 function fetchRecepti() {
-  fetch("http://localhost:3306/recepti")
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      return response.json();
-    })
-    .then((data) => {
-      displayRecepti(data);
-    })
-    .catch((error) => {
-      console.error(
-        "There has been a problem with your fetch operation:",
-        error
-      );
-    });
+    fetch('http://localhost:8080/recepti')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            displayRecepti(data);
+        })
+        .catch(error => {
+            console.error('There has been a problem with your fetch operation:', error);
+        });
 }
 
 // Prikaži seznam receptov
 function displayRecepti(recepti) {
     const receptiList = document.getElementById('recepti');
-    receptiList.innerHTML = ''; // Počisti seznam
+    receptiList.innerHTML = ''; 
 
     if (recepti.length === 0) {
-        receptiList.innerHTML = '<p>Ni rezultatov.</p>'; // Prikaz sporočila, če ni rezultatov
+        receptiList.innerHTML = '<p>Ni rezultatov.</p>'; 
         return;
     }
 
-  recepti.forEach((recept) => {
-    const li = document.createElement("li");
-    li.textContent = `${recept.ime}: ${recept.opis}`;
+    recepti.forEach(recept => {
+        const li = document.createElement('li');
+        li.textContent = '${recept.ime}';
+        
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Izbriši';
+        deleteButton.onclick = () => deleteRecept(recept.id);
 
-    // Gumb za brisanje
-    const deleteButton = document.createElement("button");
-    deleteButton.textContent = "Izbriši";
-    deleteButton.onclick = () => deleteRecept(recept.id);
-
-        // Gumb za urejanje
         const editButton = document.createElement('button');
         editButton.textContent = 'Uredi';
         editButton.onclick = () => showUpdateForm(recept); 
@@ -52,8 +47,8 @@ function displayRecepti(recepti) {
         li.appendChild(commentButton);
         receptiList.appendChild(li);
     });
->>>>>>> Stashed changes
 }
+
 
 // Ocenjevanje recepta
 function rateRecept(receptId) {
@@ -65,7 +60,7 @@ function rateRecept(receptId) {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                receptId: receptId,
+                 receptId: receptId,
                 ocena: parseFloat(ocena)
             })
         })
@@ -128,9 +123,7 @@ function deleteRecept(id) {
     })
     .catch((error) => {
       console.error(
-        "There has been a problem with your delete operation:",
-        error
-      );
+        "There has been a problem with your delete operation:", error);
     });
 }
 
@@ -173,9 +166,7 @@ function updateRecept() {
     })
     .catch((error) => {
       console.error(
-        "There has been a problem with your update operation:",
-        error
-      );
+        "There has been a problem with your update operation:", error);
     });
 }
 
