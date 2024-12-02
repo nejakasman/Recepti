@@ -138,6 +138,7 @@ footer {
     padding: 12px 25px;
 }
 
+/*Stil za izzive */
 #izziviList {
     list-style: none;
     padding: 0;
@@ -161,3 +162,58 @@ footer {
     background: #ff3b3b;
 }
 
+/* Prikaz receptov */
+.recept-card {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.recept-card h3 {
+    font-size: 1.8em;
+    color: #35424a;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+.recept-card p {
+    font-size: 1.1em;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+/* Gumbi za recept */
+.buttons-container {
+    margin-top: 15px;
+    text-align: center;
+}
+
+.buttons-container button {
+    background-color: #78c0df;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1.1em;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    margin: 0 10px;
+}
+
+.buttons-container button:hover {
+    background-color: #35424a;
+    transform: translateY(-2px);
+}
+
+.buttons-container button:active {
+    background-color: #2a3b3c;
+    transform: translateY(2px);
+}
+
+/* Dodatno prilagodimo razmik med posameznimi recepti */
+.recept-card + .recept-card {
+    margin-top: 20px;  /* Večji razmik med recepti */
+}

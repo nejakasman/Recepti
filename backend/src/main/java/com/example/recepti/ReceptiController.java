@@ -22,20 +22,24 @@ public class ReceptiController {
     @GetMapping("/recepti")
     public Iterable<Recept> getAllRecept(){
         logger.info("Getting all Recept data");
+        logger.info("First recept in list: " + repository.findAll().iterator().next());
+
         return repository.findAll();
     }
 
     @GetMapping("/recepti/{id}")
-    public Optional<Recept> getReceptById(@PathVariable("id") int id) {
+    public ResponseEntity<Recept> getReceptById(@PathVariable("id") int id) {
         logger.info("Get recept by id: " + id);
-        return repository.findById(id);
+        return repository.findById(id)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
 
     @PostMapping("/recepti/dodaj")
     public Recept postRecept(@RequestBody Recept recept) {
         logger.info("Post recept " + recept);
-        Recept newRecept = new Recept(recept.getIme(), recept.getSestavine(), recept.getNavodila());
+        Recept newRecept = new Recept(recept.getIme(), recept.getSestavine(), recept.getNavodila(), recept.getOpis());
         repository.save(newRecept);
         return newRecept;
     }

@@ -19,12 +19,13 @@ public class Recept {
     private int id;
 
     private String ime;
+    private String opis;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "navodila", joinColumns = @JoinColumn(name = "recept_id"))
     private List<String> navodila = new ArrayList<>();
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "sestavine", joinColumns = @JoinColumn(name = "recept_id"))
     private List<String> sestavine = new ArrayList<>();
 
@@ -47,11 +48,12 @@ public class Recept {
     private int stOcen = 0;  // Privzeto število ocen je 0
 
 
-    public Recept(String ime, List<String> navodila, List<String> sestavine) {
+    public Recept(String ime, List<String> navodila, List<String> sestavine, String opis) {
         this.id = id;
         this.ime = ime;
         this.navodila = navodila;
         this.sestavine = sestavine;
+        this.opis =opis;
     }
 }
 enum Kategorija {

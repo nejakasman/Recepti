@@ -27,10 +27,16 @@
             <input type="text" id="search-input" placeholder="Išči po imenu recepta">
             <button onclick="searchRecept()">Išči</button>
         </section>
+
         <section id="recepti">
-            <h2>Seznam receptov</h2>
-            <!-- Tukaj bodo prikazani recepti -->
-        </section>
+          <h2>Seznam receptov</h2>
+          <!-- Tukaj bodo prikazani recepti -->
+      </section>
+      
+      <script>
+          window.onload = fetchRecepti; // Fetch recipes on page load
+      </script>
+      
         <section id="update-section" style="display: none;">
             <h3>Posodobi recept</h3>
             <form id="update-form">

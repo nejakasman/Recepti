@@ -48,6 +48,14 @@
 
         <button type="submit">Dodaj Recept</button>
     </form>
+
+    <script src="js/prikazReceptov.js"></script>
+    <script>
+        window.onload = () => {
+            // Fetch only if the page is specifically for adding recipes
+            fetchRecepti();
+        };
+    </script>
     
      <script>
         // Pošlji POST zahtevek za dodajanje recepta
@@ -91,72 +99,6 @@
             });
         });
 
-        // Funkcija za pridobivanje in prikazovanje receptov
-        function fetchRecepti() {
-            fetch('http://localhost:8080/recepti')  // URL za pridobitev receptov
-            .then(response => {
-                if (response.ok) {
-                    return response.json();
-                } else {
-                    throw new Error('Napaka pri pridobivanju receptov');
-                }
-            })
-            .then(data => {
-                displayRecepti(data);  // Prikaz receptov na spletni strani
-            })
-            .catch(error => {
-                console.error('Napaka:', error);  // Če pride do napake, jo izpišemo v konzoli
-                alert('Napaka pri pridobivanju receptov');
-            });
-        }
-
-        // Funkcija za prikaz receptov na strani
-        function displayRecepti(recepti) {
-            const receptiList = document.getElementById('receptiList');  // Element za seznam receptov
-            receptiList.innerHTML = ''; // Počisti seznam pred prikazom novih receptov
-
-            if (recepti.length === 0) {
-                receptiList.innerHTML = '<p>Ni receptov še na voljo.</p>';
-                return;
-            }
-
-            // Prikaz vseh receptov
-            recepti.forEach(recept => {
-                const li = document.createElement('li');
-                li.textContent = recept.ime; // Prikaz imena recepta
-
-                // Dodaj druge možnosti, kot so gumbi za urejanje, brisanje itd.
-                const deleteButton = document.createElement('button');
-                deleteButton.textContent = 'Izbriši';
-                deleteButton.onclick = () => deleteRecept(recept.id); // Funkcija za brisanje recepta
-
-                const editButton = document.createElement('button');
-                editButton.textContent = 'Uredi';
-                editButton.onclick = () => showUpdateForm(recept); // Funkcija za urejanje recepta
-
-                li.appendChild(deleteButton);
-                li.appendChild(editButton);
-                receptiList.appendChild(li);  // Dodaj recept v seznam
-            });
-        }
-
-        // Funkcija za brisanje recepta (po potrebi)
-        function deleteRecept(id) {
-            fetch(`http://localhost:8080/recepti/${id}`, {
-                method: 'DELETE',
-            })
-            .then(response => {
-                if (response.ok) {
-                    fetchRecepti();  // Osveži seznam po brisanju
-                } else {
-                    throw new Error('Napaka pri brisanju recepta');
-                }
-            })
-            .catch(error => {
-                console.error('Napaka:', error);
-                alert('Napaka pri brisanju recepta');
-            });
-        }
 
         // Začetni klic za pridobitev receptov ob nalaganju strani
         window.onload = fetchRecepti;
