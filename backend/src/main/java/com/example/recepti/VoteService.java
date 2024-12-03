@@ -55,7 +55,7 @@ public class VoteService {
         return voteRepository.findByChallenge(challenge);
     }
 
-    // najboljši recept 
+    // najboljši recept
     public Recept getBestRecipeForChallenge(int kuharskiIzzivId) {
         KuharskiIzziv challenge = kuharskiIzzivRepository.findById(kuharskiIzzivId)
                 .orElseThrow(() -> new RuntimeException("Izziv z ID " + kuharskiIzzivId + " ni najden"));

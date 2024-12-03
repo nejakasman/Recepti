@@ -1,16 +1,13 @@
 package com.example.recepti;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 @Data
-@NoArgsConstructor
+@RequiredArgsConstructor
 @Entity
 @Table(name = "kuharski_izziv")
 public class KuharskiIzziv {
@@ -38,6 +35,10 @@ public class KuharskiIzziv {
         this.naziv = naziv;
         this.opis = opis;
         this.trajanjeDo = trajanjeDo;
+    }
+
+    public KuharskiIzziv(int i, String s, String s1, LocalDate now) {
+
     }
 
     @Override
