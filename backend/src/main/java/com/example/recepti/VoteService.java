@@ -31,19 +31,19 @@ public class VoteService {
     public List<Vote> pridobiGlasove(KuharskiIzziv kuharskiIzziv) {
         return glasRepository.findByKuharskiIzziv(kuharskiIzziv);
     }
-    
-    // najboljši recept
-    public Recept getBestRecipeForChallenge(int kuharskiIzzivId) {
-        KuharskiIzziv challenge = kuharskiIzzivRepository.findById(kuharskiIzzivId)
-                .orElseThrow(() -> new RuntimeException("Izziv z ID " + kuharskiIzzivId + " ni najden"));
 
-        // recept z največ točkami
-        return voteRepository.findByChallenge(challenge).stream()
-                .collect(Collectors.groupingBy(Vote::getRecept, Collectors.summingInt(Vote::getGlasovanje)))
-                .entrySet().stream()
-                .max(Map.Entry.comparingByValue())
-                .map(Map.Entry::getKey)
-                .orElseThrow(() -> new RuntimeException("Ni glasov za ta izziv."));
-    }
+    // najboljši recept
+//    public Recept getBestRecipeForChallenge(int kuharskiIzzivId) {
+//        KuharskiIzziv challenge = KuharskiIzzivRepository.findById(kuharskiIzzivId)
+//                .orElseThrow(() -> new RuntimeException("Izziv z ID " + kuharskiIzzivId + " ni najden"));
+//
+//        // recept z največ točkami
+//        return VoteRepository.findByChallenge(challenge).stream()
+//                .collect(Collectors.groupingBy(Vote::getRecept, Collectors.summingInt(Vote::getGlasovanje)))
+//                .entrySet().stream()
+//                .max(Map.Entry.comparingByValue())
+//                .map(Map.Entry::getKey)
+//                .orElseThrow(() -> new RuntimeException("Ni glasov za ta izziv."));
+//    }
 
 }
