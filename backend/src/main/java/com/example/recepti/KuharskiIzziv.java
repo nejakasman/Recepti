@@ -40,6 +40,23 @@ public class KuharskiIzziv {
         this.trajanjeDo = trajanjeDo;
     }
 
+    public Recept izracunajZmagovalca(VoteService glasService) {
+        if (recepti.isEmpty()) return null;
+
+        Recept zmagovalec = null;
+        int najvecGlasov = 0;
+
+        for (Recept recept : recepti) {
+            int glasovi = glasService.prestejGlasove(recept, this);
+            if (glasovi > najvecGlasov) {
+                najvecGlasov = glasovi;
+                zmagovalec = recept;
+            }
+        }
+
+        return zmagovalec;
+    }
+
     @Override
     public String toString() {
         return "KuharskiIzziv{" +

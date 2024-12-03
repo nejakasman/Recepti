@@ -1,40 +1,41 @@
 package com.example.recepti;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
+
+@Data
+@NoArgsConstructor
 @Entity
+@Table(name = "glas", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"uporabnik_id", "recept_id", "kuharski_izziv_id"})
+})
 public class Vote {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
-    @Getter
-    @Setter
     @ManyToOne
-    @JoinColumn(name = "Uporabnik_id")
+    @JoinColumn(name = "uporabnik_id", nullable = false)
     private Uporabnik uporabnik;
 
-
-    @Getter
-    @Setter
     @ManyToOne
-    @JoinColumn(name = "Recept_id")
+    @JoinColumn(name = "recept_id", nullable = false)
     private Recept recept;
 
-
-    @Getter
-    @Setter
     @ManyToOne
-    @JoinColumn(name = "KuharskoiIzziv_id")
-    private KuharskiIzziv challenge;
+    @JoinColumn(name = "kuharski_izziv_id", nullable = false)
+    private KuharskiIzziv kuharskiIzziv;
 
-    @Getter
-    @Setter
-    private int glasovanje; // za glasovanje, 1glasovanje=1tocka
+    private LocalDateTime datumGlasovanja;
 
-
-
+    public Vote (Uporabnik uporabnik, Recept recept, KuharskiIzziv kuharskiIzziv) {
+        this.uporabnik = uporabnik;
+        this.recept = recept;
+        this.kuharskiIzziv = kuharskiIzziv;
+        this.datumGlasovanja = LocalDateTime.now();
+    }
 }
-
