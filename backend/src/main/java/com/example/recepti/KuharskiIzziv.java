@@ -40,6 +40,10 @@ public class KuharskiIzziv {
         this.trajanjeDo = trajanjeDo;
     }
 
+    public KuharskiIzziv(int i, String s, String s1, LocalDate now) {
+
+    }
+
     public Recept izracunajZmagovalca(VoteService glasService) {
         if (recepti.isEmpty()) return null;
 
