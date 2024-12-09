@@ -1,5 +1,6 @@
 package com.example.recepti;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
@@ -31,6 +32,7 @@ public class KuharskiIzziv {
     @Getter
     private LocalDate trajanjeDo;
 
+    @JsonManagedReference // Serializira povezane recepte
     @OneToMany(mappedBy = "kuharskiIzziv", cascade = CascadeType.ALL)
     private List<Recept> recepti;
 

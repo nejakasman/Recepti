@@ -1,6 +1,7 @@
 package com.example.recepti;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +18,8 @@ public class KuharskiIzzivController {
 
     @Autowired
     private KuharskiIzzivRepository kuharskiIzzivRepository;
+    @Autowired
+    private ReceptRepository receptRepository;
 
     // Prikaz vseh kuharskih izzivov
     @GetMapping
@@ -85,4 +88,40 @@ public class KuharskiIzzivController {
         logger.info("Searching for Kuharski Izziv with name containing: " + naziv);
         return kuharskiIzzivRepository.findByNazivContaining(naziv);
     }
+
+    @PostMapping("/{izzivId}/dodaj-recept")
+    public ResponseEntity<String> dodajReceptDoIzziva(
+            @PathVariable int izzivId,
+            @RequestParam Integer receptId) {
+
+        try {
+            // Poiščemo kuharski izziv
+            Optional<KuharskiIzziv> optionalIzziv = kuharskiIzzivRepository.findById(izzivId);
+            if (optionalIzziv.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body("Kuharski izziv z ID " + izzivId + " ni bil najden.");
+            }
+
+            // Poiščemo recept
+            Optional<Recept> optionalRecept = receptRepository.findById(receptId);
+            if (optionalRecept.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body("Recept z ID " + receptId + " ni bil najden.");
+            }
+
+            // Povežemo recept z izzivom
+            Recept recept = optionalRecept.get();
+            KuharskiIzziv izziv = optionalIzziv.get();
+            recept.setKuharskiIzziv(izziv);
+            receptRepository.save(recept); // Posodobimo recept
+
+            return ResponseEntity.ok("Recept uspešno dodan k izzivu.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Napaka: " + e.getMessage());
+        }
+    }
+
 }
+
+
