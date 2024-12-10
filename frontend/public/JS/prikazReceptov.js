@@ -29,6 +29,7 @@ function fetchRecepti() {
 });
 }
 
+/*
 function displayRecepti(recepti, targetId) {
     const targetElement = document.getElementById(targetId);
     if (!targetElement) {
@@ -92,7 +93,81 @@ function displayRecepti(recepti, targetId) {
         // Dodaj celoten recept v ciljni element
         targetElement.appendChild(receptDiv);
     });
-}
+} */
+
+    function displayRecepti(recepti, targetId) {
+        const targetElement = document.getElementById(targetId);
+        if (!targetElement) {
+            console.error(`Element z ID '${targetId}' ne obstaja.`);
+            return;
+        }
+    
+        targetElement.innerHTML = ''; // Počisti seznam pred prikazom novih receptov
+    
+        if (recepti.length === 0) {
+            targetElement.innerHTML = '<p>Ni receptov še na voljo.</p>';
+            return;
+        }
+    
+        recepti.forEach(recept => {
+            const receptDiv = document.createElement('div');
+            receptDiv.classList.add('recept-card'); // Razred za lepši izgled recepta 
+    
+            // Ime recepta kot gumb
+            const ime = document.createElement('h3');
+            ime.textContent = recept.ime;
+            ime.classList.add('recept-title'); // Razred za slog
+            ime.onclick = () => showReceptDetails(recept); // Klik za prikaz podrobnosti
+            receptDiv.appendChild(ime);
+    
+            // Gumbi za urejanje in brisanje
+            const buttonsDiv = document.createElement('div');
+            buttonsDiv.classList.add('buttons');
+    
+            const deleteButton = document.createElement('button');
+            deleteButton.textContent = 'Izbriši';
+            deleteButton.onclick = () => deleteRecept(recept.id);
+            buttonsDiv.appendChild(deleteButton);
+    
+            const editButton = document.createElement('button');
+            editButton.textContent = 'Uredi';
+            editButton.onclick = () => showUpdateForm(recept);
+            buttonsDiv.appendChild(editButton);
+    
+            receptDiv.appendChild(buttonsDiv);
+    
+            // Dodaj celoten recept v ciljni element
+            targetElement.appendChild(receptDiv);
+        });
+    }
+    
+    // Funkcija za prikaz podrobnosti recepta
+    function showReceptDetails(recept) {
+        const detailsDiv = document.getElementById('recept-podrobnosti');
+        if (!detailsDiv) {
+            console.error('Manjka element z ID "recept-podrobnosti".');
+            return;
+        }
+    
+        detailsDiv.style.display = 'block'; // Prikaži sekcijo podrobnosti
+    
+        // Napolni podrobnosti recepta
+        detailsDiv.innerHTML = `
+            <h3>${recept.ime}</h3>
+            <label for="porcije">Število porcij:</label>
+            <input type="number" id="porcije" value="1" min="1" onchange="updatePorcije(${recept.id}, this.value)">
+            <p><strong>Sestavine:</strong> ${recept.sestavine.join(', ')}</p>
+            <p><strong>Navodila:</strong> ${recept.navodila.join(', ')}</p>
+            <p><strong>Opis:</strong> ${recept.opis || 'Ni opisa.'}</p>
+        `;
+    }
+    
+    // Funkcija za posodobitev porcij (če bo potrebno)
+    function updatePorcije(receptId, porcije) {
+        console.log(`Recept ${receptId} posodobljen na ${porcije} porcij.`);
+        // Tukaj lahko dodate logiko za dinamično posodobitev količin sestavin.
+    }
+    
 
 // Ocenjevanje recepta
 function rateRecept(receptId) {

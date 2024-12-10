@@ -33,6 +33,13 @@
           <!-- Tukaj bodo prikazani recepti -->
       </section>
       
+      <div id="recept-podrobnosti" style="display: none;">
+        <h3>Podrobnosti recepta</h3>
+        <label for="porcije">Število porcij:</label>
+        <input type="number" id="porcije" value="1" min="1">
+        <!-- Ostale podrobnosti o receptu, kot so sestavine, navodila, bodo tu -->
+      </div>
+      
       <script>
           window.onload = fetchRecepti; // Fetch recipes on page load
       </script>
@@ -88,6 +95,7 @@
     <footer>
       <p>&copy; 2024 Spletna stran z recepti</p>
     </footer>
+    
   </body>
 </html>
 
