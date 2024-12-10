@@ -1,5 +1,7 @@
 package com.example.recepti;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,6 +14,7 @@ import com.example.recepti.*;
 @NoArgsConstructor
 @Entity
 @Table(name = "recept")
+@JsonIgnoreProperties("kuharskiIzziv") // Ignoriraj kuharskiIzziv pri serializaciji receptov
 public class Recept {
 
     @Id
@@ -35,6 +38,7 @@ public class Recept {
     @OneToOne(cascade = CascadeType.ALL)
     private Komentar komentar;
 
+    @JsonBackReference // Prepreči serializacijo polja `kuharskiIzziv`
     @ManyToOne
     @JoinColumn(name = "kuharski_izziv_id")
     private KuharskiIzziv kuharskiIzziv;

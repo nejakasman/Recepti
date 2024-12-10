@@ -1,4 +1,6 @@
 const osnovniUrl = "http://localhost:8080/kuharski-izziv";
+const osnovniUrlRecepti = "http://localhost:8080/recepti";
+
 
 //pridobivanje vseh kuharskih izzivov
 async function getIzzivi() {
@@ -131,7 +133,77 @@ async function addIzziv(event) {
     }
 }
 
+// Pridobivanje receptov
+async function getRecepti() {
+    try {
+        const response = await fetch(osnovniUrlRecepti);
+        if (response.ok) {
+            const recepti = await response.json();
+            displayRecepti(recepti);
+        } else {
+            console.error('Napaka pri pridobivanju receptov');
+        }
+    } catch (error) {
+        console.error('Napaka pri povezavi s strežnikom:', error);
+    }
+}
+
+
+// Prikaz receptov na strani
+function displayRecepti(recepti) {
+    const receptiSelect = document.getElementById("receptSelect");
+    if (!receptiSelect) {
+        console.error("Element receptSelect ne obstaja.");
+        return;
+    }
+    receptiSelect.innerHTML = ''; 
+
+    recepti.forEach(recept => {
+        const option = document.createElement("option");
+        option.value = recept.id;
+        option.textContent = recept.ime;
+
+        receptiSelect.appendChild(option);
+    });
+}
+
+
+// Izbira recepta za dodajanje k izzivu
+function selectReceptForIzziv(receptId) {
+    const izzivId = document.getElementById("izzivId").value; // Pridobi ID izbranega kuharskega izziva
+    addReceptToIzziv(izzivId, receptId); // Dodaj recept k izzivu
+}
+
+// Funkcija za dodajanje recepta k kuharskemu izzivu
+async function addReceptToIzziv(izzivId, receptId) {
+    try {
+        const response = await fetch(`${osnovniUrl}/addRecept`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ izzivId, receptId })
+        });
+
+        if (response.ok) {
+            alert('Recept je bil uspešno dodan k izzivu');
+            getIzzivi(); // Ponovno naloži seznam izzivov
+        } else {
+            const result = await response.text();
+            alert(result);
+        }
+    } catch (error) {
+        console.error('Napaka pri dodajanju recepta k izzivu:', error);
+    }
+}
+
+
+
+
 document.getElementById("dodajIzziv").addEventListener("submit", addIzziv);
 document.getElementById("urediIzziv").addEventListener("submit", updateIzziv);
+document.addEventListener('DOMContentLoaded', () => {
+    getIzzivi();  // Prikaz izzivov
+    getRecepti(); // Prikaz receptov
+});
 
-getIzzivi();
