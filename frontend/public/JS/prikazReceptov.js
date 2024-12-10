@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     fetchRecepti();
 });
 
+
 // Funkcija za pridobivanje in prikazovanje receptov
 function fetchRecepti() {
     fetch('http://localhost:8080/recepti')  // URL za pridobitev receptov
@@ -172,26 +173,36 @@ function deleteRecept(id) {
 
 // urejanje recepta
 function showUpdateForm(recept) {
-    console.log(recept);
-    document.getElementById('update-section').style.display = 'block';
-    document.getElementById('update-ime').value = recept.ime;
-    document.getElementById('update-sestavine').value = recept.sestavine;
-    document.getElementById('update-navodila').value = recept.navodila;
+
+    console.log("Podatki recepta:", recept);
+
+    
+    document.getElementById('update-ime').value = recept.ime || '';
+    document.getElementById('update-sestavine').value = recept.sestavine.join(', ') || '';
+    document.getElementById('update-navodila').value = recept.navodila.join(', ') || '';
     document.getElementById('update-opis').value = recept.opis;
+
   document.getElementById("update-form").dataset.receptId = recept.id;
+  document.getElementById('update-section').style.display = 'block';
 }
 
 // Posodobitev recepta
 function updateRecept() {
+    console.log("Funkcija updateRecept je bila sprožena.");
+    const form = document.getElementById('update-form');
     const id = document.getElementById('update-form').dataset.receptId;
+    if (!id) {
+        alert('Napaka: ID recepta ni nastavljen.');
+        return;
+    }
     const updatedRecept = {
         ime: document.getElementById('update-ime').value,
-        sestavine: document.getElementById('update-sestavine').value,
-        navodila: document.getElementById('update-navodila').value,
+        sestavine: document.getElementById('update-sestavine').value.split(',').map(item => item.trim()),
+        navodila: document.getElementById('update-navodila').value.split(',').map(item => item.trim()),
         opis: document.getElementById('update-opis').value
     };
 
-    console.log(updatedRecept); // Preverite vrednosti, ki se pošljejo
+    console.log("Posodabljam recept z ID:", id, "Podatki:", updatedRecept); // Debugging
 
     fetch(`http://localhost:8080/recepti/update/${id}`, {
         method: 'PUT',
@@ -202,15 +213,16 @@ function updateRecept() {
     })
     .then(response => {
         if (response.ok) {
+            alert('Recept uspešno posodobljen!');
             fetchRecepti();
             document.getElementById('update-section').style.display = 'none';
         } else {
-            throw new Error('Failed to update the recept');
+            return response.text().then(err => { throw new Error(err); }); // Preberi napako iz strežnika
         }
     })
     .catch((error) => {
-      console.error(
-        "There has been a problem with your update operation:", error);
+        console.error('Napaka pri posodabljanju recepta:', error);
+        alert('Napaka pri posodabljanju recepta: ' + error.message);
     });
 }
 

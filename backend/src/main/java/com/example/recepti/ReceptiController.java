@@ -1,6 +1,5 @@
 package com.example.recepti;
 
-import jakarta.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -45,8 +44,17 @@ public class ReceptiController {
     }
 
     @DeleteMapping("/recepti/{id}")
-    public ResponseEntity<Void> deleteRecept(@PathVariable("id") int id) {
+    public ResponseEntity<String> deleteRecept(@PathVariable("id") int id) {
         logger.info("Deleting recept with id: " + id);
+        // Preverimo, če recept z določenim ID-jem obstaja
+        Optional<Recept> recept = repository.findById(id);
+        if (!recept.isPresent()) {
+            // Če recept ne obstaja, vrnemo 404
+            return ResponseEntity
+                    .status(404)
+                    .body("Recept z ID " + id + " ni bil najden.");
+            /*return ResponseEntity.notFound().build();*/
+        }
         repository.deleteById(id);
         return ResponseEntity.noContent().build(); // Vrne 204 No Content
     }
