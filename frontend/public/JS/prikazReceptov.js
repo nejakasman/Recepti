@@ -141,33 +141,6 @@ function displayRecepti(recepti, targetId) {
         });
     }
     
-    // Funkcija za prikaz podrobnosti recepta
-    function showReceptDetails(recept) {
-        const detailsDiv = document.getElementById('recept-podrobnosti');
-        if (!detailsDiv) {
-            console.error('Manjka element z ID "recept-podrobnosti".');
-            return;
-        }
-    
-        detailsDiv.style.display = 'block'; // Prikaži sekcijo podrobnosti
-    
-        // Napolni podrobnosti recepta
-        detailsDiv.innerHTML = `
-            <h3>${recept.ime}</h3>
-            <label for="porcije">Število porcij:</label>
-            <input type="number" id="porcije" value="1" min="1" onchange="updatePorcije(${recept.id}, this.value)">
-            <p><strong>Sestavine:</strong> ${recept.sestavine.join(', ')}</p>
-            <p><strong>Navodila:</strong> ${recept.navodila.join(', ')}</p>
-            <p><strong>Opis:</strong> ${recept.opis || 'Ni opisa.'}</p>
-        `;
-    }
-    
-    // Funkcija za posodobitev porcij (če bo potrebno)
-    function updatePorcije(receptId, porcije) {
-        console.log(`Recept ${receptId} posodobljen na ${porcije} porcij.`);
-        // Tukaj lahko dodate logiko za dinamično posodobitev količin sestavin.
-    }
-    
 
 // Ocenjevanje recepta
 function rateRecept(receptId) {
@@ -342,3 +315,6 @@ function dodajMedPriljubljene(receptId) {
         console.error('Napaka pri dodajanju recepta med priljubljene:', error);
     });
 }
+
+
+

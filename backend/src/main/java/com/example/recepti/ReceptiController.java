@@ -38,7 +38,7 @@ public class ReceptiController {
     @PostMapping("/recepti/dodaj")
     public Recept postRecept(@RequestBody Recept recept) {
         logger.info("Post recept " + recept);
-        Recept newRecept = new Recept(recept.getIme(), recept.getSestavine(), recept.getNavodila(), recept.getOpis());
+        Recept newRecept = new Recept(recept.getIme(), recept.getNavodila(),recept.getSestavine(), recept.getOpis());
         repository.save(newRecept);
         return newRecept;
     }
@@ -76,6 +76,31 @@ public class ReceptiController {
                 })
                 .orElseThrow(() -> new RuntimeException("Recept with id " + id + " not found"));
     }
+
+    @GetMapping("/recepti/{id}/sestavine")
+    public ResponseEntity<List<String>> getPreracunaneSestavine(@PathVariable("id") int id, @RequestParam int porcije) {
+        return repository.findById(id)
+                .map(recept -> {
+                    List<String> preracunaneSestavine = recept.getSestavine().stream()
+                            .map(sestavina -> {
+                                String[] parts = sestavina.split(" ", 2);
+                                if (parts.length > 1) {
+                                    try {
+                                        double originalKolicina = Double.parseDouble(parts[0].replaceAll("[^\\d.]", ""));
+                                        String novaSestavina = (originalKolicina * porcije) + " " + parts[1];
+                                        return novaSestavina;
+                                    } catch (NumberFormatException e) {
+                                        return sestavina;
+                                    }
+                                }
+                                return sestavina;
+                            })
+                            .toList();
+                    return ResponseEntity.ok(preracunaneSestavine);
+                })
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
 
 
 
