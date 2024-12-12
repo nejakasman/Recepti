@@ -155,7 +155,15 @@ async function deleteRecept(receptId) {
 
 //prikaz obrazca za urejanje recepta
 function showEditForm(recept) {
-  document.getElementById("edit-form").style.display = "block";
+  console.log("Prikaz obrazca za recept:", recept);
+  const editForm = document.getElementById("edit-form");
+  
+  if (!editForm) {
+    console.error("Element z ID 'edit-form' ne obstaja!");
+    return;
+  }
+  
+  editForm.style.display = "block";
 
   document.getElementById("receptId").value = recept.id;
   document.getElementById("editIme").value = recept.ime;
@@ -240,3 +248,36 @@ window.onload = () => {
     editForm.addEventListener("submit", updateRecept);
   }
 };
+
+// Funkcija za preračun količin sestavin glede na število porcij
+function updateSestavineKolicine() {
+  const currentPorcije = parseInt(document.getElementById("editPorcije").value) || 1;
+  const originalPorcije = parseInt(localStorage.getItem("originalPorcije")) || 1;
+
+  const sestavineInput = document.getElementById("editSestavine");
+  const originalSestavine = localStorage.getItem("originalSestavine") || sestavineInput.value;
+
+  // Shrani originalne sestavine, če še niso shranjene
+  if (!localStorage.getItem("originalSestavine")) {
+    localStorage.setItem("originalSestavine", sestavineInput.value);
+    localStorage.setItem("originalPorcije", originalPorcije);
+  }
+
+  // Razčleni sestavine, ločene z vejicami
+  const sestavine = originalSestavine.split(",").map((sestavina) => {
+    const match = sestavina.trim().match(/^(\d+)([a-zA-Z]+)\s+(.*)$/);
+    if (!match) return sestavina.trim(); // Če ni ustreznega formata, vrni sestavino nespremenjeno
+
+    const [_, kolicina, enota, ime] = match; // Količina, enota, ime sestavine
+    const novaKolicina = Math.round((parseFloat(kolicina) * currentPorcije) / originalPorcije); // Preračun količine
+    return `${novaKolicina}${enota} ${ime}`;
+  });
+
+  // Posodobi vnos sestavin
+  sestavineInput.value = sestavine.join(", ");
+}
+
+// Dodaj poslušalec spremembe na vnos števila porcij
+document.getElementById("editPorcije").addEventListener("input", updateSestavineKolicine);
+
+

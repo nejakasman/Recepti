@@ -61,6 +61,7 @@ public class ReceptiController {
         return ResponseEntity.ok(savedRecept);
     }
 
+    /*
     @DeleteMapping("/recepti/{id}")
     public ResponseEntity<String> deleteRecept(@PathVariable("id") int id) {
         logger.info("Deleting recept with id: " + id);
@@ -71,11 +72,11 @@ public class ReceptiController {
             return ResponseEntity
                     .status(404)
                     .body("Recept z ID " + id + " ni bil najden.");
-            /*return ResponseEntity.notFound().build();*/
+            /*return ResponseEntity.notFound().build();
         }
         repository.deleteById(id);
         return ResponseEntity.noContent().build(); // Vrne 204 No Content
-    }
+    } */
 
     @GetMapping("/search")
     public List<Recept> searchRecept(@RequestParam String ime) {
