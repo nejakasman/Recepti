@@ -28,8 +28,6 @@ public class Uporabnik {
     @OneToMany(mappedBy = "uporabnik", cascade = CascadeType.ALL)
     private List<Komentar> komentarji;
 
-    @OneToMany(mappedBy = "uporabnik", cascade = CascadeType.ALL)
-    private List<PriljubljeniRecepti> priljubljeniRecepti;
 
 
 }

@@ -31,15 +31,19 @@ public class KuharskiIzziv {
     @Setter
     @Getter
     private LocalDate trajanjeDo;
+    @Setter
+    @Getter
+    private LocalDate trajanjeOd;
 
     @JsonManagedReference // Serializira povezane recepte
     @OneToMany(mappedBy = "kuharskiIzziv", cascade = CascadeType.ALL)
     private List<Recept> recepti;
 
-    public KuharskiIzziv(String naziv, String opis, LocalDate trajanjeDo) {
+    public KuharskiIzziv(String naziv, String opis, LocalDate trajanjeDo, LocalDate trajanjeOd) {
         this.naziv = naziv;
         this.opis = opis;
         this.trajanjeDo = trajanjeDo;
+        this.trajanjeOd = trajanjeOd;
     }
 
     public KuharskiIzziv(int i, String s, String s1, LocalDate now) {
