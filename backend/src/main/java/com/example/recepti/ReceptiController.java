@@ -22,15 +22,15 @@ public class ReceptiController {
 
     @GetMapping("/recepti")
     public Iterable<Recept> getAllRecept(){
-        logger.info("Pridobivamo vse podatke o receptu");
-        logger.info("Prvi recept na seznamu: " + repository.findAll().iterator().next());
+        logger.info("Getting all Recept data");
+        logger.info("First recept in list: " + repository.findAll().iterator().next());
 
         return repository.findAll();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/recepti/{id}")
     public ResponseEntity<Recept> getReceptById(@PathVariable("id") int id) {
-        logger.info("Pridobi recept po ID: " + id);
+        logger.info("Get recept by id: " + id);
         return repository.findById(id)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
@@ -63,7 +63,7 @@ public class ReceptiController {
 
     @DeleteMapping("/recepti/{id}")
     public ResponseEntity<String> deleteRecept(@PathVariable("id") int id) {
-        logger.info("Brisanje recepta z id-jem: " + id);
+        logger.info("Deleting recept with id: " + id);
         // Preverimo, če recept z določenim ID-jem obstaja
         Optional<Recept> recept = repository.findById(id);
         if (!recept.isPresent()) {
@@ -99,6 +99,31 @@ public class ReceptiController {
                 })
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
+
+    @GetMapping("/recepti/{id}/sestavine")
+    public ResponseEntity<List<String>> getPreracunaneSestavine(@PathVariable("id") int id, @RequestParam int porcije) {
+        return repository.findById(id)
+                .map(recept -> {
+                    List<String> preracunaneSestavine = recept.getSestavine().stream()
+                            .map(sestavina -> {
+                                String[] parts = sestavina.split(" ", 2);
+                                if (parts.length > 1) {
+                                    try {
+                                        double originalKolicina = Double.parseDouble(parts[0].replaceAll("[^\\d.]", ""));
+                                        String novaSestavina = (originalKolicina * porcije) + " " + parts[1];
+                                        return novaSestavina;
+                                    } catch (NumberFormatException e) {
+                                        return sestavina;
+                                    }
+                                }
+                                return sestavina;
+                            })
+                            .toList();
+                    return ResponseEntity.ok(preracunaneSestavine);
+                })
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
 
 
 
