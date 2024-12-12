@@ -28,7 +28,7 @@ public class ReceptiController {
         return repository.findAll();
     }
 
-    @GetMapping("/recepti/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Recept> getReceptById(@PathVariable("id") int id) {
         logger.info("Get recept by id: " + id);
         return repository.findById(id)
@@ -100,7 +100,7 @@ public class ReceptiController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/recepti/{id}/sestavine")
+    @GetMapping("/{id}/sestavine")
     public ResponseEntity<List<String>> getPreracunaneSestavine(@PathVariable("id") int id, @RequestParam int porcije) {
         return repository.findById(id)
                 .map(recept -> {
