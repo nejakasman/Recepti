@@ -46,6 +46,8 @@ async function viewReceptDetails(receptId) {
     const response = await fetch(
       `http://localhost:8080/api/recepti/${receptId}`
     );
+    console.log("Fetching recept with ID:", receptId);
+
     const recept = await response.json();
     showReceptDetails(recept);
   } catch (error) {
@@ -134,7 +136,7 @@ function showReceptDetails(recept) {
 async function deleteRecept(receptId) {
   try {
     const response = await fetch(
-      `http://localhost:8080/api/recepti/recepti/${receptId}`,
+      `http://localhost:8080/api/recepti/${receptId}`,
       {
         method: "DELETE",
       }
