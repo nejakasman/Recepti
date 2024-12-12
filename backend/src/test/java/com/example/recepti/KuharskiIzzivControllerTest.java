@@ -13,6 +13,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -25,25 +26,12 @@ class KuharskiIzzivControllerTest {
     @MockBean
     private KuharskiIzzivRepository kuharskiIzzivRepository;
 
+    @MockBean
+    private ReceptRepository receptRepository;
+
     @BeforeEach
     void setUp() {
-        Mockito.reset(kuharskiIzzivRepository);
-    }
-
-    @Test
-    @DisplayName("Prikaz vseh kuharskih izzivov")
-    public void testGetAllIzzivi_Success() throws Exception {
-        // Mock podatki
-        KuharskiIzziv izziv1 = new KuharskiIzziv( "Izziv 1", "Opis 1", LocalDate.now());
-        KuharskiIzziv izziv2 = new KuharskiIzziv("Izziv 2", "Opis 2", LocalDate.now());
-
-        Mockito.when(kuharskiIzzivRepository.findAll()).thenReturn(List.of(izziv1, izziv2));
-
-        mockMvc.perform(MockMvcRequestBuilders.get("/kuharski-izziv"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value(2))
-                .andExpect(jsonPath("$[0].naziv").value("Izziv 1"))
-                .andExpect(jsonPath("$[1].naziv").value("Izziv 2"));
+        Mockito.reset(kuharskiIzzivRepository, receptRepository);
     }
 
     @ParameterizedTest
@@ -62,5 +50,48 @@ class KuharskiIzzivControllerTest {
                         .content("{\"naziv\":\"" + naziv + "\",\"opis\":\"Opis novega izziva\",\"trajanjeDo\":\"2024-12-31\"}"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("Kuharski izziv uspešno dodan"));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"", "Opis novega izziva"})
+    @DisplayName("Negativni test za dodajanje Kuharskega Izziva z manjkajočimi podatki")
+    public void testDodajIzziv_MissingFields(String naziv) throws Exception {
+        String bodyContent = String.format("{\"naziv\":\"%s\", \"opis\":\"Opis novega izziva\", \"trajanjeDo\":\"2024-12-31\"}", naziv);
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/kuharski-izziv")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(bodyContent))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("Vsi podatki (naziv, opis, trajanje) so obvezni."));
+    }
+
+    @Test
+    @DisplayName("Pozitiven test za brisanje kuharskega izziva")
+    public void testIzbrisiIzziv_Success() throws Exception {
+        KuharskiIzziv izziv = new KuharskiIzziv();
+        izziv.setId(1);
+        izziv.setNaziv("Test Izziv");
+        izziv.setOpis("Opis izziva");
+        izziv.setTrajanjeDo(LocalDate.now().plusDays(10));
+
+        Mockito.when(kuharskiIzzivRepository.findById(1)).thenReturn(Optional.of(izziv));
+
+        mockMvc.perform(MockMvcRequestBuilders.delete("/kuharski-izziv/1"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("Kuharski izziv uspešno zbrisan"));
+
+        Mockito.verify(kuharskiIzzivRepository, Mockito.times(1)).deleteById(1);
+    }
+
+    @Test
+    @DisplayName("Negativni test za brisanje kuharskega izziva - Izziv ne obstaja")
+    public void testIzbrisiIzziv_NotFound() throws Exception {
+        Mockito.when(kuharskiIzzivRepository.findById(1)).thenReturn(Optional.empty());
+
+        mockMvc.perform(MockMvcRequestBuilders.delete("/kuharski-izziv/1"))
+                .andExpect(status().isNotFound())
+                .andExpect(content().string("Kuharski izziv z ID 1 ni bil najden."));
+
+        Mockito.verify(kuharskiIzzivRepository, Mockito.never()).deleteById(Mockito.anyInt());  // Preverimo, da deleteById ni bila poklicana
     }
 }

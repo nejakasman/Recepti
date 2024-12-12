@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/kuharski-izziv")  // Prefiks za vse URL-je v tem kontrolerju
+@RequestMapping("/kuharski-izziv")
 public class KuharskiIzzivController {
 
     Logger logger = Logger.getLogger(KuharskiIzzivController.class.getName());
@@ -24,7 +24,7 @@ public class KuharskiIzzivController {
     // Prikaz vseh kuharskih izzivov
     @GetMapping
     public List<KuharskiIzziv> getAllIzzivi() {
-        logger.info("Getting all Kuharski Izziv data");
+        logger.info("Pridobivanje podatkov za vse KuharskeIzzive");
         return kuharskiIzzivRepository.findAll();
     }
 
@@ -39,7 +39,7 @@ public class KuharskiIzzivController {
     // Dodajanje novega kuharskega izziva
     @PostMapping
     public ResponseEntity<String> dodajIzziv(@RequestBody KuharskiIzziv kuharskiIzziv) {
-        logger.info("Adding new Kuharski Izziv: " + kuharskiIzziv);
+        logger.info("Dodajanje Kuharskega Izziva: " + kuharskiIzziv);
 
         // Preverimo, ali so vsi potrebni podatki prisotni
         if (kuharskiIzziv.getNaziv() == null || kuharskiIzziv.getOpis() == null || kuharskiIzziv.getTrajanjeDo() == null) {
@@ -61,6 +61,7 @@ public class KuharskiIzzivController {
             updatedIzziv.setNaziv(kuharskiIzziv.getNaziv());
             updatedIzziv.setOpis(kuharskiIzziv.getOpis());
             updatedIzziv.setTrajanjeDo(kuharskiIzziv.getTrajanjeDo());
+            updatedIzziv.setTrajanjeOd(kuharskiIzziv.getTrajanjeOd());
             kuharskiIzzivRepository.save(updatedIzziv);
             return ResponseEntity.ok("Kuharski izziv uspešno posodobljen");
         } else {
@@ -71,12 +72,12 @@ public class KuharskiIzzivController {
     // Brisanje kuharskega izziva
     @DeleteMapping("/{id}")
     public ResponseEntity<String> izbrisiIzziv(@PathVariable("id") int id) {
-        logger.info("Deleting Kuharski Izziv with id: " + id);
+        logger.info("Brisanje Kuharskega Izziva z id: " + id);
 
         Optional<KuharskiIzziv> existingIzziv = kuharskiIzzivRepository.findById(id);
         if (existingIzziv.isPresent()) {
             kuharskiIzzivRepository.deleteById(id);
-            return ResponseEntity.ok("Kuharski izziv uspešno izbrisan");
+            return ResponseEntity.ok("Kuharski izziv uspešno zbrisan");
         } else {
             return ResponseEntity.notFound().build();
         }
@@ -85,14 +86,14 @@ public class KuharskiIzzivController {
     // Iskanje kuharskih izzivov po imenu
     @GetMapping("/search")
     public List<KuharskiIzziv> searchIzziv(@RequestParam String naziv) {
-        logger.info("Searching for Kuharski Izziv with name containing: " + naziv);
+        logger.info("Iskanje Kuharskega Izziva z imenom: " + naziv);
         return kuharskiIzzivRepository.findByNazivContaining(naziv);
     }
 
     @PostMapping("/{izzivId}/dodaj-recept")
     public ResponseEntity<String> dodajReceptDoIzziva(
             @PathVariable int izzivId,
-            @RequestParam Integer receptId) {
+            @RequestParam int receptId) {
 
         try {
             // Poiščemo kuharski izziv

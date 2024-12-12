@@ -15,6 +15,7 @@ import com.example.recepti.*;
 @Entity
 @Table(name = "recept")
 @JsonIgnoreProperties("kuharskiIzziv") // Ignoriraj kuharskiIzziv pri serializaciji receptov
+
 public class Recept {
 
     @Id
@@ -23,20 +24,24 @@ public class Recept {
 
     private String ime;
     private String opis;
+    private int porcije;
+    private int casPriprave;
+
 
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "navodila", joinColumns = @JoinColumn(name = "recept_id"))
     private List<String> navodila = new ArrayList<>();
 
-    @ElementCollection(fetch = FetchType.EAGER)
+    @ElementCollection
     @CollectionTable(name = "sestavine", joinColumns = @JoinColumn(name = "recept_id"))
     private List<String> sestavine = new ArrayList<>();
+
 
     @Enumerated(EnumType.STRING)
     private Kategorija kategorija;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    private Komentar komentar;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "recept")
+    private List<Komentar> komentarji = new ArrayList<>();
 
     @JsonBackReference // Prepreči serializacijo polja `kuharskiIzziv`
     @ManyToOne
@@ -47,26 +52,22 @@ public class Recept {
     @JoinColumn(name = "uporabnik_id")
     private Uporabnik uporabnik; // Povezava z uporabnikom
 
-    // Dodajamo novi polji za povprečno oceno in število ocen
-    private double povprecnaOcena = 0.0;  // Privzeto vrednost postavimo na 0.0
-    private int stOcen = 0;  // Privzeto število ocen je 0
+    private double povprecnaOcena = 0.0;
+    private int stOcen = 0;
 
 
-    public Recept(String ime, List<String> navodila, List<String> sestavine, String opis) {
-        this.id = id;
+    public Recept(String ime, List<String> navodila, List<String> sestavine, String opis, int porcije, int casPriprave, Kategorija kategorija) {
         this.ime = ime;
         this.navodila = navodila;
         this.sestavine = sestavine;
-        this.opis =opis;
+        this.opis = opis;
+        this.porcije = porcije;
+        this.casPriprave = casPriprave;
+        this.kategorija = kategorija;
     }
+
+
 }
-enum Kategorija {
-    ZAJTRK,
-    KOSILO,
-    VECERJA,
-    MALICA,
-    SLADICA,
-    DRUGO
-}
+
 
 

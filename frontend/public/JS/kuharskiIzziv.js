@@ -1,209 +1,142 @@
 const osnovniUrl = "http://localhost:8080/kuharski-izziv";
-const osnovniUrlRecepti = "http://localhost:8080/recepti";
-
 
 //pridobivanje vseh kuharskih izzivov
 async function getIzzivi() {
-    try {
-        const response = await fetch(osnovniUrl);
-        if (response.ok) {
-            const izzivi = await response.json();
-            displayIzzivi(izzivi);
-        } else {
-            console.error('Napaka pri pridobivanju izzivov');
-        }
-    } catch (error) {
-        console.error('Napaka pri povezavi s strežnikom:', error);
+  try {
+    const response = await fetch(osnovniUrl);
+    if (response.ok) {
+      const izzivi = await response.json();
+      displayIzzivi(izzivi);
+    } else {
+      console.error("Napaka pri pridobivanju izzivov");
     }
+  } catch (error) {
+    console.error("Napaka pri povezavi s strežnikom:", error);
+  }
 }
 
 // prikaz kuharskih izzivov na strani
 function displayIzzivi(izzivi) {
-    const izziviList = document.getElementById("izziviList");
-    izziviList.innerHTML = ''; 
+  const izziviList = document.getElementById("izziviList");
+  izziviList.innerHTML = "";
 
-    izzivi.forEach(izziv => {
-        const li = document.createElement("li");
-        li.textContent = `${izziv.naziv}: ${izziv.opis} (Trajanje do: ${izziv.trajanjeDo})`;
+  izzivi.forEach((izziv) => {
+    const li = document.createElement("li");
+    li.textContent = `${izziv.naziv}: ${izziv.opis} (Trajanje do: ${izziv.trajanjeDo})`;
 
-        const deleteButton = document.createElement("button");
-        deleteButton.textContent = "Izbriši";
-        deleteButton.onclick = () => deleteIzziv(izziv.id);
+    const editButton = document.createElement("button");
+    editButton.textContent = "Uredi";
+    editButton.onclick = () => showEditForm(izziv);
 
-        const editButton = document.createElement("button");
-        editButton.textContent = "Uredi";
-        editButton.onclick = () => showEditForm(izziv);
+    const deleteButton = document.createElement("button");
+    deleteButton.textContent = "Izbriši";
+    deleteButton.onclick = () => deleteIzziv(izziv.id);
 
-        li.appendChild(deleteButton);
-        li.appendChild(editButton);
-        izziviList.appendChild(li);
-    });
+    li.appendChild(editButton);
+    li.appendChild(deleteButton);
+
+    izziviList.appendChild(li);
+  });
 }
 
 // brisanje kuharskega izziva
 async function deleteIzziv(id) {
-    try {
-        const response = await fetch(`${osnovniUrl}/${id}`, {
-            method: 'DELETE'
-        });
+  try {
+    const response = await fetch(`${osnovniUrl}/${id}`, {
+      method: "DELETE",
+    });
 
-        if (response.ok) {
-            alert('Izziv uspešno izbrisan');
-            getIzzivi(); // Ponovno naloži seznam
-        } else {
-            const result = await response.text();
-            alert(result);
-        }
-    } catch (error) {
-        console.error('Napaka pri brisanju izziva:', error);
+    if (response.ok) {
+      alert("Izziv uspešno izbrisan");
+      getIzzivi(); // Ponovno naloži seznam
+    } else {
+      const result = await response.text();
+      alert(result);
     }
+  } catch (error) {
+    console.error("Napaka pri brisanju izziva:", error);
+  }
 }
 
 //prikaz obrazca za urejanje kuharskega izziva
 function showEditForm(izziv) {
-    document.getElementById("urediIzziv").style.display = "block";
-    document.getElementById("izzivId").value = izziv.id;
-    document.getElementById("novoIme").value = izziv.naziv;
-    document.getElementById("novoOpis").value = izziv.opis;
-    document.getElementById("novoTrajanjeDo").value = izziv.trajanjeDo; // Dodano za trajanjeDo
+  document.getElementById("urediIzziv").style.display = "block";
+  document.getElementById("izzivId").value = izziv.id;
+  document.getElementById("novoIme").value = izziv.naziv;
+  document.getElementById("novoOpis").value = izziv.opis;
+  document.getElementById("novoTrajanjeDo").value = izziv.trajanjeDo; // datuma od ne bomo spreminjali
 }
 
 // posodobitev kuharskega izziva
 async function updateIzziv(event) {
-    event.preventDefault();
+  event.preventDefault();
 
-    const id = document.getElementById("izzivId").value;
-    const novoIme = document.getElementById("novoIme").value;
-    const novoOpis = document.getElementById("novoOpis").value;
-    const novoTrajanjeDo = document.getElementById("novoTrajanjeDo").value;
+  const id = document.getElementById("izzivId").value;
+  const novoIme = document.getElementById("novoIme").value;
+  const novoOpis = document.getElementById("novoOpis").value;
+  const novoTrajanjeDo = document.getElementById("novoTrajanjeDo").value;
 
-    const podatki = { naziv: novoIme, opis: novoOpis, trajanjeDo: novoTrajanjeDo };
+  const podatki = {
+    naziv: novoIme,
+    opis: novoOpis,
+    trajanjeDo: novoTrajanjeDo,
+  };
 
-    try {
-        const response = await fetch(`${osnovniUrl}/${id}`, {
-            method: 'PUT',
-            headers: { 
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(podatki)
-        });
+  try {
+    const response = await fetch(`${osnovniUrl}/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(podatki),
+    });
 
-        if (response.ok) {
-            alert('Izziv uspešno posodobljen');
-            getIzzivi();
-            document.getElementById("urediIzziv").style.display = "none";
-        } else {
-            const result = await response.text();
-            alert(result);
-        }
-    } catch (error) {
-        console.error('Napaka pri posodabljanju izziva:', error);
+    if (response.ok) {
+      alert("Izziv uspešno posodobljen");
+      getIzzivi();
+      document.getElementById("urediIzziv").style.display = "none";
+    } else {
+      const result = await response.text();
+      alert(result);
     }
+  } catch (error) {
+    console.error("Napaka pri posodabljanju izziva:", error);
+  }
 }
 
 // dodajanje kuharskega izziva
 async function addIzziv(event) {
-    event.preventDefault();
+  event.preventDefault();
 
-    const naziv = document.getElementById("izzivIme").value;
-    const opis = document.getElementById("izzivOpis").value;
-    const trajanjeDo = document.getElementById("izzivTrajanjeDo").value;
+  const naziv = document.getElementById("izzivIme").value;
+  const opis = document.getElementById("izzivOpis").value;
+  const trajanjeDo = document.getElementById("izzivTrajanjeDo").value;
 
-    const podatki = { naziv, opis, trajanjeDo };
+  const podatki = { naziv, opis, trajanjeDo };
 
-    try {
-        const response = await fetch(osnovniUrl, {
-            method: 'POST',
-            headers: { 
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(podatki)
-        });
-
-        if (response.ok) {
-            alert('Izziv uspešno dodan');
-            document.getElementById("dodajIzziv").reset(); // Počisti obrazec
-            getIzzivi(); // Ponovno naloži seznam
-        } else {
-            const result = await response.text();
-            alert(result);
-        }
-    } catch (error) {
-        console.error('Napaka pri dodajanju izziva:', error);
-    }
-}
-
-// Pridobivanje receptov
-async function getRecepti() {
-    try {
-        const response = await fetch(osnovniUrlRecepti);
-        if (response.ok) {
-            const recepti = await response.json();
-            displayRecepti(recepti);
-        } else {
-            console.error('Napaka pri pridobivanju receptov');
-        }
-    } catch (error) {
-        console.error('Napaka pri povezavi s strežnikom:', error);
-    }
-}
-
-
-// Prikaz receptov na strani
-function displayRecepti(recepti) {
-    const receptiSelect = document.getElementById("receptSelect");
-    if (!receptiSelect) {
-        console.error("Element receptSelect ne obstaja.");
-        return;
-    }
-    receptiSelect.innerHTML = ''; 
-
-    recepti.forEach(recept => {
-        const option = document.createElement("option");
-        option.value = recept.id;
-        option.textContent = recept.ime;
-
-        receptiSelect.appendChild(option);
+  try {
+    const response = await fetch(osnovniUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(podatki),
     });
-}
 
-
-// Izbira recepta za dodajanje k izzivu
-function selectReceptForIzziv(receptId) {
-    const izzivId = document.getElementById("izzivId").value; // Pridobi ID izbranega kuharskega izziva
-    addReceptToIzziv(izzivId, receptId); // Dodaj recept k izzivu
-}
-
-// Funkcija za dodajanje recepta k kuharskemu izzivu
-async function addReceptToIzziv(izzivId, receptId) {
-    try {
-        const response = await fetch(`${osnovniUrl}/addRecept`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ izzivId, receptId })
-        });
-
-        if (response.ok) {
-            alert('Recept je bil uspešno dodan k izzivu');
-            getIzzivi(); // Ponovno naloži seznam izzivov
-        } else {
-            const result = await response.text();
-            alert(result);
-        }
-    } catch (error) {
-        console.error('Napaka pri dodajanju recepta k izzivu:', error);
+    if (response.ok) {
+      alert("Izziv uspešno dodan");
+      document.getElementById("dodajIzziv").reset(); // Počisti obrazec
+      getIzzivi(); // Ponovno naloži seznam
+    } else {
+      const result = await response.text();
+      alert(result);
     }
+  } catch (error) {
+    console.error("Napaka pri dodajanju izziva:", error);
+  }
 }
-
-
-
 
 document.getElementById("dodajIzziv").addEventListener("submit", addIzziv);
 document.getElementById("urediIzziv").addEventListener("submit", updateIzziv);
-document.addEventListener('DOMContentLoaded', () => {
-    getIzzivi();  // Prikaz izzivov
-    getRecepti(); // Prikaz receptov
-});
 
+getIzzivi();
