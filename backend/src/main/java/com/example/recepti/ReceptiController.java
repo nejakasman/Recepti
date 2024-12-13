@@ -102,7 +102,11 @@ public class ReceptiController {
     }
 
     @GetMapping("/{id}/sestavine")
-    public ResponseEntity<List<String>> getPreracunaneSestavine(@PathVariable("id") int id, @RequestParam int porcije) {
+    public ResponseEntity<?> getPreracunaneSestavine(@PathVariable("id") int id, @RequestParam int porcije) {
+        if (porcije <= 0) {
+            return ResponseEntity.badRequest().body("Parameter 'porcije' mora biti pozitivno celo število.");
+        }
+
         return repository.findById(id)
                 .map(recept -> {
                     List<String> preracunaneSestavine = recept.getSestavine().stream()
@@ -124,6 +128,7 @@ public class ReceptiController {
                 })
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
+
 
 
 
