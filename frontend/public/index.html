@@ -21,6 +21,7 @@
     <main>
       <div class="container">
         <h1>Seznam Receptov</h1>
+        <div id="recept-details"></div>
         <div id="recepti-container"></div>
       </div>
 
@@ -43,9 +44,6 @@
         <label for="editCasPriprave">Čas priprave</label>
         <input type="number" id="editCasPriprave" />
 
-        <label for="editPorcije">Porcije</label>
-        <input type="number" id="editPorcije" />
-
         <label for="editKategorija">Kategorija:</label>
         <select id="editKategorija">
           <option value="ZAJTRK">Zajtrk</option>
@@ -64,17 +62,6 @@
     <footer>
       <p>&copy; 2024 Spletna stran z recepti</p>
     </footer>
-    <script>
-      window.onload = function () {
-        const receptId = localStorage.getItem("receptId");
-        const porcije = parseInt(localStorage.getItem("porcije")) || 1;
-
-        if (receptId) {
-          updatePorcije(receptId, porcije);
-        }
-      };
-    </script>
-    <script src="./js/porcije.js"></script>
     <script src="./js/app.js" defer></script>
   </body>
 </html>

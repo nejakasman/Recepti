@@ -26,20 +26,24 @@ function fetchKategorije() {
     });
 }
 
-// Pošlji POST zahtevek za dodajanje recepta
 document
   .getElementById("recipeForm")
   .addEventListener("submit", function (event) {
-    event.preventDefault(); // Prepreči privzeto obnašanje obrazca
+    event.preventDefault(); 
 
     // Ustvarite objekt za recept s pridobljenimi vrednostmi iz obrazca
     const recipe = {
       ime: document.getElementById("ime").value,
       opis: document.getElementById("opis").value,
-      sestavine: document.getElementById("sestavine").value.split("\n"), // Razdelite sestavine po vrsticah
-      navodila: document.getElementById("navodila").value.split("\n"), // Razdelite navodila po vrsticah
+      sestavine: document
+        .getElementById("sestavine")
+        .value.split(",")
+        .map(s => s.trim()),
+      navodila: document
+        .getElementById("navodila")
+        .value.split(",")
+        .map(s => s.trim()),
       casPriprave: document.getElementById("casPriprave").value,
-      porcije: document.getElementById("porcije").value,
       kategorija: document.getElementById("kategorija").value,
     };
     console.log(recipe); // Preverite podatke v konzoli

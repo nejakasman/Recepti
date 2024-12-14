@@ -24,7 +24,6 @@ public class Recept {
 
     private String ime;
     private String opis;
-    private int porcije;
     private int casPriprave;
 
 
@@ -56,17 +55,14 @@ public class Recept {
     private int stOcen = 0;
 
 
-    public Recept(String ime, List<String> navodila, List<String> sestavine, String opis, int porcije, int casPriprave, Kategorija kategorija) {
+    public Recept(String ime, List<String> navodila, List<String> sestavine, String opis, int casPriprave, Kategorija kategorija) {
         this.ime = ime;
         this.navodila = navodila;
         this.sestavine = sestavine;
         this.opis = opis;
-        this.porcije = porcije;
         this.casPriprave = casPriprave;
         this.kategorija = kategorija;
     }
-
-
 }
 
 

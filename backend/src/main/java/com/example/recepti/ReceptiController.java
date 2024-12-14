@@ -53,7 +53,6 @@ public class ReceptiController {
                 recept.getNavodila(),
                 recept.getSestavine(),
                 recept.getOpis(),
-                recept.getPorcije(),
                 recept.getCasPriprave(),
                 recept.getKategorija()
         );
@@ -61,8 +60,8 @@ public class ReceptiController {
         return ResponseEntity.ok(savedRecept);
     }
 
-    /*
-    @DeleteMapping("/recepti/{id}")
+
+    @DeleteMapping("/izbrisi/{id}")
     public ResponseEntity<String> deleteRecept(@PathVariable("id") int id) {
         logger.info("Deleting recept with id: " + id);
         // Preverimo, če recept z določenim ID-jem obstaja
@@ -72,11 +71,11 @@ public class ReceptiController {
             return ResponseEntity
                     .status(404)
                     .body("Recept z ID " + id + " ni bil najden.");
-            /*return ResponseEntity.notFound().build();
+            //return ResponseEntity.notFound().build();
         }
         repository.deleteById(id);
         return ResponseEntity.noContent().build(); // Vrne 204 No Content
-    } */
+    }
 
     @GetMapping("/search")
     public List<Recept> searchRecept(@RequestParam String ime) {
@@ -93,7 +92,6 @@ public class ReceptiController {
                     recept.setSestavine(updatedRecept.getSestavine());
                     recept.setNavodila(updatedRecept.getNavodila());
                     recept.setCasPriprave(updatedRecept.getCasPriprave());
-                    recept.setPorcije(updatedRecept.getPorcije());
                     recept.setOpis(updatedRecept.getOpis());
                     recept.setKategorija(updatedRecept.getKategorija());
                     return ResponseEntity.ok(repository.save(recept));
