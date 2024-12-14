@@ -27,7 +27,7 @@ public class Recept {
     private int casPriprave;
 
 
-    @ElementCollection(fetch = FetchType.EAGER)
+    @ElementCollection
     @CollectionTable(name = "navodila", joinColumns = @JoinColumn(name = "recept_id"))
     private List<String> navodila = new ArrayList<>();
 
@@ -53,6 +53,8 @@ public class Recept {
 
     private double povprecnaOcena = 0.0;
     private int stOcen = 0;
+
+
 
 
     public Recept(String ime, List<String> navodila, List<String> sestavine, String opis, int casPriprave, Kategorija kategorija) {

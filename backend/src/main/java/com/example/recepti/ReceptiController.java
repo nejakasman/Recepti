@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
+import javax.servlet.http.HttpSession;
 
 @CrossOrigin
 @RestController
@@ -19,6 +20,10 @@ public class ReceptiController {
 
     @Autowired
     ReceptRepository repository;
+
+    @Autowired
+    ReceptHistoryRepository receptHistoryRepository;
+
 
     @GetMapping("/recepti")
     public Iterable<Recept> getAllRecept(){
@@ -48,6 +53,7 @@ public class ReceptiController {
     @PostMapping("/dodaj")
     public ResponseEntity<Recept> createRecept(@RequestBody Recept recept) {
         logger.info("Dodajamo recept: " + recept.getIme());
+
         Recept newRecept = new Recept(
                 recept.getIme(),
                 recept.getNavodila(),
@@ -57,6 +63,10 @@ public class ReceptiController {
                 recept.getKategorija()
         );
         Recept savedRecept = repository.save(newRecept);
+
+        ReceptHistory history = new ReceptHistory(savedRecept, "System"); // kasneje bomo dodali uporabnika
+        receptHistoryRepository.save(history);
+
         return ResponseEntity.ok(savedRecept);
     }
 
@@ -88,16 +98,24 @@ public class ReceptiController {
         return repository.findById(id)
                 .map(recept -> {
                     logger.info("Posodabljamo recept z ID: " + id);
+
                     recept.setIme(updatedRecept.getIme());
                     recept.setSestavine(updatedRecept.getSestavine());
                     recept.setNavodila(updatedRecept.getNavodila());
                     recept.setCasPriprave(updatedRecept.getCasPriprave());
                     recept.setOpis(updatedRecept.getOpis());
                     recept.setKategorija(updatedRecept.getKategorija());
+
+                    ReceptHistory history = new ReceptHistory(recept, "System");
+                    receptHistoryRepository.save(history);
+
                     return ResponseEntity.ok(repository.save(recept));
                 })
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
+
+
+
 
     @GetMapping("/{id}/sestavine")
     public ResponseEntity<?> getPreracunaneSestavine(@PathVariable("id") int id, @RequestParam int porcije) {
@@ -127,7 +145,11 @@ public class ReceptiController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-
+    @GetMapping("/{id}/history")
+    public ResponseEntity<List<ReceptHistory>> getReceptHistory(@PathVariable("id") int id) {
+        List<ReceptHistory> history = receptHistoryRepository.findByReceptId(id);
+        return history.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(history);
+    }
 
 
 

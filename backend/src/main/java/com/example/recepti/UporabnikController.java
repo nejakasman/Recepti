@@ -3,6 +3,7 @@ package com.example.recepti;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import javax.servlet.http.HttpSession;
 
 @CrossOrigin
 @RestController
@@ -37,13 +38,22 @@ public class UporabnikController {
 
     // Preprosta metoda za prijavo uporabnika brez Spring Security
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody Uporabnik uporabnik) {
+    public ResponseEntity<String> login(@RequestBody Uporabnik uporabnik, HttpSession session) {
         // Poišči uporabnika v bazi
         Uporabnik foundUser = uporabnikRepository.findByUporabniskoIme(uporabnik.getUporabniskoIme());
 
         if (foundUser != null && uporabnik.getGeslo().equals(foundUser.getGeslo())) {
+            // Shrani uporabnika v sejo
+            session.setAttribute("uporabnik", foundUser);
             return ResponseEntity.ok("Prijava uspešna");
         }
         return ResponseEntity.badRequest().body("Neveljavni uporabniški podatki");
+    }
+
+    // Metodo za odjavo (če jo potrebuješ)
+    @PostMapping("/logout")
+    public ResponseEntity<String> logout(HttpSession session) {
+        session.invalidate();
+        return ResponseEntity.ok("Uporabnik izpisan");
     }
 }
