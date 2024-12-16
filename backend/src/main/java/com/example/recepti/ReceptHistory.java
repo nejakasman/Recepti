@@ -41,8 +41,9 @@ public class ReceptHistory {
     private Uporabnik uporabnik;
 
     @ManyToOne
-    @JoinColumn(name = "recept_id")
+    @JoinColumn(name = "recept_id", nullable = false)
     private Recept recept;
+
 
     public ReceptHistory(Recept recept, String updatedBy) {
         this.recept = recept;

@@ -6,8 +6,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import javax.servlet.http.HttpSession;
 
 @CrossOrigin
@@ -151,6 +155,27 @@ public class ReceptiController {
         return history.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(history);
     }
 
+    @GetMapping("/pogostost-sestavin")
+    public ResponseEntity<?> getPogostostSestavin() {
+        logger.info("Pridobivamo pogostost uporabe sestavin.");
 
+        List<List<String>> allSestavine = repository.findAllSestavine();
+
+        Map<String, Long> pogostost = allSestavine.stream()
+                .flatMap(List::stream)
+                .map(sestavina -> {
+                    String regex = "^([\\d.,]+)?\\s*([a-zA-ZščžŠČŽ]+)?\\s*(.+)$";
+                    Pattern pattern = Pattern.compile(regex);
+                    Matcher matcher = pattern.matcher(sestavina);
+
+                    if (matcher.matches()) {
+                        return matcher.group(3);
+                    }
+                    return sestavina;
+                })
+                .collect(Collectors.groupingBy(s -> s, Collectors.counting()));
+
+        return ResponseEntity.ok(pogostost);
+    }
 
 }
