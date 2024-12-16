@@ -67,6 +67,9 @@ async function fetchRecepti() {
         const response = await fetch("http://localhost:8080/api/recepti/recepti");
         const recepti = await response.json();
         displayRecepti(recepti);
+
+        fetchPogostostSestavin(); // Posodobi pogostost sestavin
+
     } catch (error) {
         console.error("Napaka pri pridobivanju receptov:", error);
     }
@@ -231,3 +234,30 @@ window.onload = () => {
         editForm.addEventListener("submit", updateRecept);
     }
 };
+
+async function fetchPogostostSestavin() {
+    try {
+        const response = await fetch('http://localhost:8080/api/recepti/pogostost-sestavin'); // Pokliči API endpoint
+        if (!response.ok) {
+            throw new Error('Napaka pri pridobivanju podatkov.');
+        }
+        const data = await response.json(); // Preberi JSON odgovor
+        displayPogostostSestavin(data); // Pokliči funkcijo za prikaz podatkov
+    } catch (error) {
+        console.error('Napaka:', error);
+    }
+}
+
+function displayPogostostSestavin(data) {
+    const pogostostDiv = document.getElementById('pogostost-sestavin'); // Poišči mesto za izpis
+    pogostostDiv.innerHTML = ''; // Počisti obstoječo vsebino
+
+    // Naredi seznam iz pogostosti
+    const ul = document.createElement('ul');
+    for (const [sestavina, count] of Object.entries(data)) {
+        const li = document.createElement('li');
+        li.textContent = `${sestavina}: ${count}x`;
+        ul.appendChild(li);
+    }
+    pogostostDiv.appendChild(ul); // Dodaj seznam na stran
+}

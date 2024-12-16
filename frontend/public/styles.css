@@ -242,3 +242,47 @@ input[type="password"] {
   text-align: center;
   color: #aaa;
 }
+
+/* Posodobitev stila za pogostost sestavin */
+#pogostost-sestavin {
+  margin-top: 30px;
+  padding: 20px;
+  border: 1px solid #ddd;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+#pogostost-sestavin h3 {
+  color: #35424a;
+  font-size: 1.5em;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+#pogostost-sestavin ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+#pogostost-sestavin li {
+  margin: 10px 0;
+  padding: 12px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 1.1em;
+  color: #333;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+#pogostost-sestavin li:hover {
+  background-color: #78c0df;
+  transform: translateY(-2px);
+}
+
+#pogostost-sestavin li:last-child {
+  margin-bottom: 0;
+}
+
