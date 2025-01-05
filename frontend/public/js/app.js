@@ -26,6 +26,7 @@ async function updatePorcije(receptId, porcije) {
 
 // Funkcija za prikaz podrobnosti recepta
 async function viewReceptDetails(receptId) {
+    console.log("Poglej podrobnosti za recept z ID:", receptId);
     try {
         const response = await fetch(`http://localhost:8080/api/recepti/${receptId}`);
         if (!response.ok) throw new Error('Napaka pri pridobivanju recepta.');
@@ -68,8 +69,6 @@ async function fetchRecepti() {
         const recepti = await response.json();
         displayRecepti(recepti);
 
-        fetchPogostostSestavin(); // Posodobi pogostost sestavin
-
     } catch (error) {
         console.error("Napaka pri pridobivanju receptov:", error);
     }
@@ -91,7 +90,10 @@ function displayRecepti(recepti) {
 
         const showMoreButton = document.createElement("button");
         showMoreButton.textContent = "Prikaži več";
-        showMoreButton.onclick = () => viewReceptDetails(recept.id);
+        showMoreButton.onclick = () => {
+            viewReceptDetails(recept.id);
+            zabeleziOgled(recept.id);  // Dodaj zabeležitev ogleda
+        };
 
         const editButton = document.createElement("button");
         editButton.textContent = "Uredi";
@@ -114,6 +116,7 @@ function displayRecepti(recepti) {
         receptiContainer.appendChild(receptCard);
     });
 }
+
 
 // Funkcija za brisanje recepta
 async function deleteRecept(receptId) {
@@ -228,6 +231,7 @@ function cancelEdit() {
 // Inicializacija ob nalaganju strani
 window.onload = () => {
     fetchRecepti();
+    getPogostostSestavin();
 
     const editForm = document.getElementById("edit-form");
     if (editForm) {
@@ -235,29 +239,105 @@ window.onload = () => {
     }
 };
 
-async function fetchPogostostSestavin() {
+
+
+function normalizeSestavina(sestavina) {
+    return sestavina.replace(/^\d+\s*(g|kg|ml|l|oz|tbsp|tsp|cup)?\s*/i, '').trim().toLowerCase();
+}
+async function getPogostostSestavin() {
     try {
-        const response = await fetch('http://localhost:8080/api/recepti/pogostost-sestavin'); // Pokliči API endpoint
-        if (!response.ok) {
-            throw new Error('Napaka pri pridobivanju podatkov.');
+        const response = await fetch('http://localhost:8080/api/recepti/pogostost-sestavin');
+        const pogostost = await response.json();
+        console.log("Pogostost sestavin:", pogostost);
+
+        const receptResponse = await fetch('http://localhost:8080/api/recepti/recepti');
+        let recepti = await receptResponse.json();
+
+        if (Object.keys(pogostost).length === 0) {
+            console.log("Ni sestavin. Prikazujemo recepte po navadnem vrstnem redu.");
+            displayRecepti(recepti);
+        } else {
+            displayPogostostSestavin(pogostost);
+
+            const sestavineList = Object.keys(pogostost).sort((a, b) => pogostost[b] - pogostost[a]);
+
+            function sortReceptiPoSestavinah(recepti, sestavina) {
+                recepti.forEach(recept => {
+                    const vsebujeSestavino = recept.sestavine.some(s => normalizeSestavina(s) === sestavina);
+                    recept.vsebujeSestavino = vsebujeSestavino;
+                });
+
+                recepti.sort((a, b) => {
+                    if (a.vsebujeSestavino && !b.vsebujeSestavino) {
+                        return -1;  
+                    }
+                    if (!a.vsebujeSestavino && b.vsebujeSestavino) {
+                        return 1;  
+                    }
+                    return 0; 
+                });
+
+                return recepti;  
+            }
+
+            let razvrščeniRecepti = [];
+
+            for (let i = 0; i < sestavineList.length; i++) {
+                const sestavina = sestavineList[i];
+                console.log("Razvrščamo po sestavini:", sestavina);
+
+                recepti = sortReceptiPoSestavinah(recepti, sestavina);
+
+                razvrščeniRecepti = [...razvrščeniRecepti, ...recepti.filter(r => r.vsebujeSestavino)];
+            
+                recepti = recepti.filter(r => !r.vsebujeSestavino);
+            }
+
+            displayRecepti(razvrščeniRecepti);
         }
-        const data = await response.json(); // Preberi JSON odgovor
-        displayPogostostSestavin(data); // Pokliči funkcijo za prikaz podatkov
+
     } catch (error) {
-        console.error('Napaka:', error);
+        console.error('Napaka pri pridobivanju pogostosti sestavin:', error);
     }
 }
 
-function displayPogostostSestavin(data) {
-    const pogostostDiv = document.getElementById('pogostost-sestavin'); // Poišči mesto za izpis
-    pogostostDiv.innerHTML = ''; // Počisti obstoječo vsebino
 
-    // Naredi seznam iz pogostosti
+
+
+function displayPogostostSestavin(data) {
+    const pogostostDiv = document.getElementById('pogostost-sestavin'); 
+    pogostostDiv.innerHTML = ''; 
     const ul = document.createElement('ul');
     for (const [sestavina, count] of Object.entries(data)) {
         const li = document.createElement('li');
         li.textContent = `${sestavina}: ${count}x`;
         ul.appendChild(li);
     }
-    pogostostDiv.appendChild(ul); // Dodaj seznam na stran
+    pogostostDiv.appendChild(ul);
+}
+
+
+// Funkcija za beleženje ogleda recepta
+async function zabeleziOgled(receptId) {
+    try {
+        console.log('Klicana funkcija zabeleziOgled za recept:', receptId); 
+        
+        const response = await fetch(`http://localhost:8080/api/recepti/${receptId}/ogled`, {
+            method: 'POST',
+        });
+
+        if (!response.ok) {
+            console.error('Napaka pri zabeležitvi ogleda');
+        } else {
+            console.log('Ogled uspešno zabeležen');
+
+            let ogledaniRecepti = JSON.parse(localStorage.getItem('ogledaniRecepti')) || [];
+            if (!ogledaniRecepti.includes(receptId)) {
+                ogledaniRecepti.push(receptId);
+                localStorage.setItem('ogledaniRecepti', JSON.stringify(ogledaniRecepti));
+            }
+        }
+    } catch (error) {
+        console.error('Napaka pri povezavi z backendom:', error);
+    }
 }
