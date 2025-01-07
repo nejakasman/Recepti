@@ -4,10 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -28,9 +25,11 @@ public class ReceptiController {
     @Autowired
     ReceptHistoryRepository receptHistoryRepository;
 
+    @Autowired
+    ReceptViewHistoryRepository receptViewHistoryRepository;
 
     @GetMapping("/recepti")
-    public Iterable<Recept> getAllRecept(){
+    public Iterable<Recept> getAllRecept() {
         logger.info("Getting all Recept data");
         logger.info("First recept in list: " + repository.findAll().iterator().next());
 
@@ -118,8 +117,17 @@ public class ReceptiController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-
-
+    @PostMapping("/{id}/ogled")
+    public ResponseEntity<Void> zabeleziOgled(@PathVariable("id") int id) {
+        Optional<Recept> receptOpt = repository.findById(id);
+        if (receptOpt.isPresent()) {
+            Recept recept = receptOpt.get();
+            ReceptViewHistory viewHistory = new ReceptViewHistory(recept);
+            receptViewHistoryRepository.save(viewHistory);
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.notFound().build();
+    }
 
     @GetMapping("/{id}/sestavine")
     public ResponseEntity<?> getPreracunaneSestavine(@PathVariable("id") int id, @RequestParam int porcije) {
@@ -149,33 +157,50 @@ public class ReceptiController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/{id}/history")
-    public ResponseEntity<List<ReceptHistory>> getReceptHistory(@PathVariable("id") int id) {
-        List<ReceptHistory> history = receptHistoryRepository.findByReceptId(id);
-        return history.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(history);
-    }
+//    @GetMapping("/{id}/history")
+//    public ResponseEntity<List<ReceptHistory>> getReceptHistory(@PathVariable("id") int id) {
+//        List<ReceptHistory> history = receptHistoryRepository.findByReceptId(id);
+//        return history.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(history);
+//    }
 
     @GetMapping("/pogostost-sestavin")
-    public ResponseEntity<?> getPogostostSestavin() {
-        logger.info("Pridobivamo pogostost uporabe sestavin.");
+    public ResponseEntity<Map<String, Long>> getPogostostSestavin() {
+        logger.info("Pridobivamo pogostost uporabe sestavin iz zgodovine ogledov.");
 
-        List<List<String>> allSestavine = repository.findAllSestavine();
+        // Seznam sestavin, ki jih želimo izključiti
+        List<String> excludedSestavine = Arrays.asList(
+                "moke", "sladkorja", "soli", "popra", "vode", "jajca", "jajc", "jajce"
+        );
 
-        Map<String, Long> pogostost = allSestavine.stream()
-                .flatMap(List::stream)
+        // Pridobimo vse sestavine iz zgodovine ogledov
+        List<ReceptViewHistory> history = receptViewHistoryRepository.findAll();
+
+        List<String> allSestavineHistory = new ArrayList<>();
+
+        for (ReceptViewHistory viewHistory : history) {
+            Recept recept = viewHistory.getRecept();
+            allSestavineHistory.addAll(recept.getSestavine());
+        }
+
+        // Filtriramo sestavine, da izključimo tiste, ki so v seznamu excludedSestavine
+        List<String> filteredSestavine = allSestavineHistory.stream()
                 .map(sestavina -> {
                     String regex = "^([\\d.,]+)?\\s*([a-zA-ZščžŠČŽ]+)?\\s*(.+)$";
                     Pattern pattern = Pattern.compile(regex);
                     Matcher matcher = pattern.matcher(sestavina);
 
                     if (matcher.matches()) {
-                        return matcher.group(3);
+                        return matcher.group(3).toLowerCase(); // Vrne samo ime sestavine
                     }
-                    return sestavina;
+                    return sestavina.toLowerCase();
                 })
+                .filter(s -> !excludedSestavine.contains(s)) // Izključi nezaželene sestavine
+                .collect(Collectors.toList());
+
+        // Preštejemo pogostost preostalih sestavin
+        Map<String, Long> pogostost = filteredSestavine.stream()
                 .collect(Collectors.groupingBy(s -> s, Collectors.counting()));
 
         return ResponseEntity.ok(pogostost);
     }
-
 }

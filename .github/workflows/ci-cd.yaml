@@ -1,0 +1,76 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-backend:
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:5.7
+        ports:
+          - 3306:3306
+        env:
+          MYSQL_ROOT_PASSWORD: zdravniki123
+          MYSQL_DATABASE: recepti
+        options: --health-cmd="mysqladmin ping --silent" --health-timeout=30s --health-start-period=10s
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Java
+        uses: actions/setup-java@v2
+        with:
+          java-version: '23'
+          distribution: 'temurin'  
+
+      - name: Install dependencies and build backend
+        run: |
+          cd backend
+          mvn clean install -DskipTests
+
+  build-frontend:
+    runs-on: ubuntu-latest
+    needs: build-backend
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '22'
+
+      - name: Install dependencies and start frontend
+        run: |
+          cd frontend
+          npm install
+          nohup node server.js &  # Zaženemo Node.js server v ozadju
+
+  test-backend:
+    runs-on: ubuntu-latest
+    needs: build-frontend
+    environment: test
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Java
+        uses: actions/setup-java@v2
+        with:
+          java-version: '23'
+          distribution: 'temurin'  # Uporabi 'temurin' distribucijo za OpenJDK
+
+      - name: Run backend tests
+        run: |
+          cd backend
+          mvn test
