@@ -25,11 +25,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up OpenJDK 23 (Temurin)
-        uses: adoptopenjdk/actions/setup-java@v2
+      - name: Set up Java
+        uses: actions/setup-java@v2
         with:
           java-version: '23'
-          distribution: 'temurin'
+          distribution: 'temurin'  
 
       - name: Install dependencies and build backend
         run: |
@@ -64,11 +64,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up OpenJDK 23 (Temurin)
-        uses: adoptopenjdk/actions/setup-java@v2
+      - name: Set up Java
+        uses: actions/setup-java@v2
         with:
           java-version: '23'
-          distribution: 'temurin'
+          distribution: 'temurin'  # Uporabi 'temurin' distribucijo za OpenJDK
 
       - name: Run backend tests
         run: |
