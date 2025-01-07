@@ -1,0 +1,77 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main  # Uporaba za 'main' vejo. Dodajte še druge veje, če jih potrebujete.
+  pull_request:
+    branches:
+      - main  # Zagon ob PR v 'main' vejo
+
+jobs:
+  # Gradnja backend-a
+  build-backend:
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:5.7 # Uporaba MySQL slike
+        ports:
+          - 3306:3306 # Dostop do baze na privzetem portu
+        env:
+          MYSQL_ROOT_PASSWORD: zdravniki123
+          MYSQL_DATABASE: recepti
+        options: --health-cmd="mysqladmin ping --silent" --health-timeout=30s --health-start-period=10s
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2  # Kloniranje repozitorija
+
+      - name: Set up Java
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'  # Nastavitev različice Jave za Spring Boot projekt
+
+      - name: Install dependencies and build backend
+        run: |
+          cd backend  # Premik v mapo backend-a (če je v ločeni mapi)
+          mvn clean install -DskipTests  # Gradnja backend-a s Maven (brez testov)
+
+  # Zaženite frontend Node.js server
+  build-frontend:
+    runs-on: ubuntu-latest
+    needs: build-backend  # Frontend se začne graditi šele po uspešni gradnji backend-a
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2  # Kloniranje repozitorija
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'  # Nastavitev različice Node.js za frontend
+
+      - name: Install dependencies and start frontend
+        run: |
+          cd frontend  # Premik v mapo frontend-a (če je v ločeni mapi)
+          npm install  # Namestitev odvisnosti
+          nohup node server.js &  # Zaženemo Node.js server v ozadju
+
+  # Testiranje backend-a
+  test-backend:
+    runs-on: ubuntu-latest
+    needs: build-frontend  # Testiranje backend-a se začne šele po gradnji frontend-a
+    environment: test  # Uporabljamo okolje za testiranje
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2  # Kloniranje repozitorija
+
+      - name: Set up Java
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'  # Nastavitev različice Jave
+
+      - name: Run backend tests
+        run: |
+          cd backend  # Premik v mapo backend-a
+          mvn test  # Poženi teste za backend
