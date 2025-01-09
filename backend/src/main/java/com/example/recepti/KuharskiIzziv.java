@@ -100,6 +100,8 @@ public class KuharskiIzziv {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Setter
+    @Getter
     private int id;
 
     private String naziv;
@@ -107,6 +109,7 @@ public class KuharskiIzziv {
 
     private LocalDate trajanjeDo;
     private LocalDate trajanjeOd;
+
 
     @JsonManagedReference // Serializira povezane recepte
     @OneToMany(mappedBy = "kuharskiIzziv", cascade = CascadeType.ALL)
