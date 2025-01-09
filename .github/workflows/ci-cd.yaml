@@ -17,7 +17,7 @@ jobs:
         ports:
           - 3306:3306
         env:
-          MYSQL_ROOT_PASSWORD: zdravniki123
+          MYSQL_ROOT_PASSWORD: password123
           MYSQL_DATABASE: recepti
         options: --health-cmd="mysqladmin ping --silent" --health-timeout=30s --health-start-period=10s
 
@@ -28,8 +28,8 @@ jobs:
       - name: Set up Java
         uses: actions/setup-java@v2
         with:
-          java-version: '23'
-          distribution: 'temurin'  
+          java-version: "21"
+          distribution: "temurin"
 
       - name: Install dependencies and build backend
         run: |
@@ -47,7 +47,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '22'
+          node-version: "22"
 
       - name: Install dependencies and start frontend
         run: |
@@ -57,7 +57,7 @@ jobs:
 
   test-backend:
     runs-on: ubuntu-latest
-    needs: build-frontend
+    needs: build-backend
     environment: test
 
     steps:
@@ -67,8 +67,8 @@ jobs:
       - name: Set up Java
         uses: actions/setup-java@v2
         with:
-          java-version: '23'
-          distribution: 'temurin'  # Uporabi 'temurin' distribucijo za OpenJDK
+          java-version: "23"
+          distribution: "temurin" # Uporabi 'temurin' distribucijo za OpenJDK
 
       - name: Run backend tests
         run: |
