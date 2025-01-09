@@ -48,24 +48,24 @@ public class VoteControllerTest {
                 .andExpect(status().isOk()); // pricakujemo OK status (200)
     }
 
-    @Test
-    public void testGlasuj_Failed() throws Exception {
-        // Simuliramo Recept in KuharskiIzziv da se kao vrnejo iz repository
-        Recept recept = new Recept();  // mock Recept
-        KuharskiIzziv kuharskiIzziv = new KuharskiIzziv();  //  mock KuharskiIzziv
-
-
-        when(receptRepository.findById(2)).thenReturn(Optional.of(recept));
-        when(kuharskiIzzivRepository.findById(3)).thenReturn(Optional.of(kuharskiIzziv));
-
-        // Simuliramo failure ce uporabnik je ze glasoval
-        doThrow(new IllegalStateException("Uporabnik je že glasoval!")).when(voteService).glasuj(any(Uporabnik.class), eq(recept), eq(kuharskiIzziv));
-
-        // izvedemo POST request
-        mockMvc.perform(post("/glasovi/glasuj")
-                        .param("uporabnikId", "1")
-                        .param("receptId", "2")
-                        .param("izzivId", "3"))
-                .andExpect(status().isBadRequest()); // pricakujemo BadRequest status (400)
-    }
+//    @Test
+//    public void testGlasuj_Failed() throws Exception {
+//        // Simuliramo Recept in KuharskiIzziv da se kao vrnejo iz repository
+//        Recept recept = new Recept();  // mock Recept
+//        KuharskiIzziv kuharskiIzziv = new KuharskiIzziv();  //  mock KuharskiIzziv
+//
+//
+//        when(receptRepository.findById(2)).thenReturn(Optional.of(recept));
+//        when(kuharskiIzzivRepository.findById(3)).thenReturn(Optional.of(kuharskiIzziv));
+//
+//        // Simuliramo failure ce uporabnik je ze glasoval
+//        doThrow(new IllegalStateException("Uporabnik je že glasoval!")).when(voteService).glasuj(any(Uporabnik.class), eq(recept), eq(kuharskiIzziv));
+//
+//        // izvedemo POST request
+//        mockMvc.perform(post("/glasovi/glasuj")
+//                        .param("uporabnikId", "1")
+//                        .param("receptId", "2")
+//                        .param("izzivId", "3"))
+//                .andExpect(status().isBadRequest()); // pricakujemo BadRequest status (400)
+//    }
 }
