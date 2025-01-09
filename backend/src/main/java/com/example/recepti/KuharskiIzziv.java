@@ -12,6 +12,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 @Data
 @NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "kuharski_izziv")
 public class KuharskiIzziv {

@@ -4,15 +4,19 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
 import com.example.recepti.*;
+import lombok.Setter;
 
 @Data
 @NoArgsConstructor
 @Entity
+@Getter
+@Setter
 @Table(name = "recept")
 @JsonIgnoreProperties("kuharskiIzziv") // Ignoriraj kuharskiIzziv pri serializaciji receptov
 

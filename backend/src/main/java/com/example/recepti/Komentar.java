@@ -1,9 +1,14 @@
 package com.example.recepti;
 
 import jakarta.persistence.*;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
-
+@Getter
+@Setter
+@Data
 @Entity
 @Table(name = "komentar")
 public class Komentar {
