@@ -26,7 +26,6 @@ public class Recept {
     private String opis;
     private int casPriprave;
 
-
     @ElementCollection
     @CollectionTable(name = "navodila", joinColumns = @JoinColumn(name = "recept_id"))
     private List<String> navodila = new ArrayList<>();
