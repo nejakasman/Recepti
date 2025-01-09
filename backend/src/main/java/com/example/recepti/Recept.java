@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 import java.util.ArrayList;
 import java.util.List;
 import com.example.recepti.*;
-import lombok.Setter;
 
 @Data
 @NoArgsConstructor
