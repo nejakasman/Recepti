@@ -62,20 +62,21 @@ async function viewReceptDetails(receptId) {
             <h3>Kategorija:</h3>
             <p>${recept.kategorija}</p>
 
-            <div id="komentarji-container">
             <h3>Komentarji</h3>
-            <div id="komentarji-lista"></div>
+            <div id="comments-section">
+                <!-- Komentarji bodo prikazani tukaj -->
+            </div>
 
             <h3>Dodaj komentar</h3>
-            <form id="dodaj-komentar-form">
-                <textarea id="komentar-vnos" placeholder="Vnesite svoj komentar" required></textarea>
-                <input type="hidden" id="receptId" value="1" /> <!-- ID recepta -->
+            <div id="add-comment-section">
+                <form id="add-comment-form">
+                <textarea id="comment-text" placeholder="Vnesite svoj komentar..." required></textarea><br>
                 <button type="submit">Dodaj komentar</button>
-            </form>
+                </form>
             </div>
 
         `;
-
+    loadComments(receptId);
     updatePorcije(receptId, porcije);
   } catch (error) {
     console.error("Napaka pri prikazu podrobnosti recepta:", error);

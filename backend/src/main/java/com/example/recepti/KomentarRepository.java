@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface KomentarRepository extends JpaRepository<Komentar, Integer> {
     // Poišče vse komentarje za določen recept
-    List<Komentar> findByRecept(Recept recept);
+    List<Komentar> findByReceptId(int receptId);
+    }
 
-}

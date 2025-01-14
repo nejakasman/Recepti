@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import com.example.recepti.*;
 
-@Data
+
 @NoArgsConstructor
 @Entity
 @Getter
@@ -55,8 +55,7 @@ public class Recept {
     @JoinColumn(name = "uporabnik_id")
     private Uporabnik uporabnik; // Povezava z uporabnikom
 
-    private double povprecnaOcena = 0.0;
-    private int stOcen = 0;
+
 
 
     public Recept(String ime, List<String> navodila, List<String> sestavine, String opis, int casPriprave, Kategorija kategorija) {

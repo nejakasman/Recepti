@@ -19,6 +19,28 @@ public class KomentarController {
     @Autowired
     private ReceptRepository receptRepository;
 
+
+    // Pridobi vse komentarje
+    @GetMapping("/vsiKomentarji")
+    public ResponseEntity<?> pridobiVseKomentarje() {
+        try {
+            return ResponseEntity.ok(komentarService.pridobiVseKomentarje());
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Napaka pri pridobivanju komentarjev: " + e.getMessage());
+        }
+    }
+
+    // Pridobi komentarje za določen recept
+    @GetMapping("/komentarjiZaRecept/{receptId}")
+    public ResponseEntity<?> pridobiKomentarjeZaRecept(@PathVariable int receptId) {
+        try {
+            return ResponseEntity.ok(komentarService.pridobiKomentarjeZaRecept(receptId));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Napaka pri pridobivanju komentarjev: " + e.getMessage());
+        }
+    }
+
+
     // Dodaj komentar k receptu
     @PostMapping("/dodajKomentar")
     public ResponseEntity<?> dodajKomentar(@RequestBody KomentarRequest request) {
@@ -27,7 +49,7 @@ public class KomentarController {
                     .orElseThrow(() -> new IllegalArgumentException("Recept ne obstaja"));
 
             Komentar komentar = komentarService.dodajKomentar(
-                    recept, request.getKomentar()
+                    recept, request.getKomentarBesedilo()
             );
 
             return ResponseEntity.ok(komentar);
@@ -38,5 +60,6 @@ public class KomentarController {
         } catch (Throwable e) {
             throw new RuntimeException(e);
         }
+
     }
 }

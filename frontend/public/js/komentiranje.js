@@ -1,68 +1,82 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const komentarjiLista = document.getElementById("komentarji-lista");
-  const dodajKomentarForm = document.getElementById("dodaj-komentar-form");
-  const receptId = localStorage.getItem("podrobni_recept");
+// Osnovna URL pot API-ja
+const API_BASE_URL = "http://localhost:8080/api/komentarji";
 
-  // Pridobi komentarje za določen recept
-  async function pridobiKomentarje() {
-    try {
-      const response = await fetch(
-        `http://localhost:8080/api/komentarji?receptId=${receptId}`
-      );
-      if (!response.ok) throw new Error("Napaka pri pridobivanju komentarjev.");
+// ID recepta za prikaz
+const receptId = localStorage.getItem("podrobni_recept");
+console.log("Recept ID:", receptId); // Preveri, ali je ID pravilno shranjen
 
-      const komentarji = await response.json();
-      komentarjiLista.innerHTML = "";
+// Funkcija za nalaganje komentarjev
+async function loadComments(receptId) {
+  const commentsSection = document.getElementById("comments-section");
+  commentsSection.innerHTML = "<p>Nalaganje komentarjev...</p>";
 
-      komentarji.forEach((komentar) => {
-        const komentarEl = document.createElement("div");
-        komentarEl.classList.add("komentar");
-        komentarEl.innerHTML = `
-            <p><strong>${komentar.uporabnik.ime}</strong>: ${
-          komentar.komentar
-        }</p>
-            <small>${new Date(komentar.datumObjave).toLocaleString()}</small>
-          `;
-        komentarjiLista.appendChild(komentarEl);
-      });
-    } catch (error) {
-      console.error("Napaka:", error.message);
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/komentarjiZaRecept/${receptId}`
+    );
+    if (!response.ok) {
+      throw new Error("Napaka pri nalaganju komentarjev.");
     }
+
+    const comments = await response.json();
+    commentsSection.innerHTML = comments.length
+      ? comments.map(commentToHTML).join("")
+      : "<p>Ni komentarjev za ta recept.</p>";
+  } catch (error) {
+    commentsSection.innerHTML = `<p>${error.message}</p>`;
+  }
+}
+
+// Funkcija za pretvorbo komentarja v HTML
+function commentToHTML(comment) {
+  return `
+      <div class="comment">
+        <p><strong>${new Date(
+          comment.datumObjave
+        ).toLocaleString()}</strong></p>
+        <p>${comment.komentarBesedilo}</p>
+      </div>
+    `;
+}
+
+// Komponenta za dodajanje novega komentarja
+async function addComment(event) {
+  event.preventDefault(); // Preprečimo privzeto obnašanje obrazca
+
+  const commentText = document.getElementById("comment-text").value.trim();
+  console.log(commentText);
+  if (!commentText) {
+    alert("Komentar ne sme biti prazen!");
+    return;
   }
 
-  // Dodaj komentar
-  dodajKomentarForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const komentarBesedilo = document.getElementById("komentar-vnos").value;
+  try {
+    const response = await fetch(`${API_BASE_URL}/dodajKomentar`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        receptId: receptId,
+        komentarBesedilo: commentText,
+      }),
+    });
 
-    try {
-      const response = await fetch(
-        "http://localhost:8080/api/komentarji/dodaj",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            receptId: receptId,
-            komentar: komentarBesedilo,
-          }),
-        }
-      );
-
-      if (!response.ok) {
-        const errorMsg = await response.text();
-        throw new Error(errorMsg);
-      }
-
-      const novKomentar = await response.json();
-      document.getElementById("komentar-vnos").value = "";
-      pridobiKomentarje(); // Osveži komentarje
-    } catch (error) {
-      console.error("Napaka pri dodajanju komentarja:", error.message);
+    if (!response.ok) {
+      throw new Error("Napaka pri dodajanju komentarja.");
     }
-  });
 
-  // Pridobi komentarje ob nalaganju strani
-  pridobiKomentarje();
+    document.getElementById("comment-text").value = ""; // Počistimo obrazec
+    loadComments(receptId); // Osvežimo komentarje
+  } catch (error) {
+    alert(error.message);
+  }
+}
+
+// Dodamo poslušalce dogodkov
+document.addEventListener("DOMContentLoaded", function () {
+  document
+    //.getElementById("add-comment-form")
+    .addEventListener("submit", addComment);
 });
+
+// Naložimo komentarje ob nalaganju strani
+loadComments();

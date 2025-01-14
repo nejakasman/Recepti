@@ -31,4 +31,12 @@ public class KomentarService {
         receptRepository.save(recept);
         return komentarRepository.save(komentar);
     }
+    public Iterable<Komentar> pridobiVseKomentarje() {
+        return komentarRepository.findAll();
+    }
+
+    public Iterable<Komentar> pridobiKomentarjeZaRecept(int receptId) {
+        return komentarRepository.findByReceptId(receptId);
+    }
+
 }
