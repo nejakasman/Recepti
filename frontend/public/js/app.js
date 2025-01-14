@@ -261,6 +261,7 @@ async function getPogostostSestavin() {
 
             const sestavineList = Object.keys(pogostost).sort((a, b) => pogostost[b] - pogostost[a]);
 
+            // Funkcija za sortiranje receptov glede na sestavine
             function sortReceptiPoSestavinah(recepti, sestavina) {
                 recepti.forEach(recept => {
                     const vsebujeSestavino = recept.sestavine.some(s => normalizeSestavina(s) === sestavina);
@@ -281,7 +282,9 @@ async function getPogostostSestavin() {
             }
 
             let razvrščeniRecepti = [];
+            let preostaliRecepti = [];
 
+            // Razvrsti recepte po sestavinah
             for (let i = 0; i < sestavineList.length; i++) {
                 const sestavina = sestavineList[i];
                 console.log("Razvrščamo po sestavini:", sestavina);
@@ -293,14 +296,20 @@ async function getPogostostSestavin() {
                 recepti = recepti.filter(r => !r.vsebujeSestavino);
             }
 
-            displayRecepti(razvrščeniRecepti);
+            // Tukaj zagotovimo, da se prikažejo tudi preostali recepti, ki nimajo sestavin
+            if (recepti.length > 0) {
+                console.log("Prikazujem preostale recepte brez sestavin:");
+                preostaliRecepti = recepti;  // To so recepti brez specifičnih sestavin
+            }
+
+            // Prikaz vseh receptov, tudi brez specifičnih sestavin
+            displayRecepti(razvrščeniRecepti.concat(preostaliRecepti));
         }
 
     } catch (error) {
         console.error('Napaka pri pridobivanju pogostosti sestavin:', error);
     }
 }
-
 
 
 

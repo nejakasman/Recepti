@@ -1,5 +1,5 @@
 //// dodajanje recepta ////
-// Pridobi kategorije iz backend API-ja
+
 function fetchKategorije() {
   fetch("http://localhost:8080/api/recepti/kategorije")
     .then((response) => {
@@ -11,7 +11,7 @@ function fetchKategorije() {
       return response.json();
     })
     .then((kategorije) => {
-      console.log("Pridobljene kategorije:", kategorije); // Preverite, kaj je prejeto
+      console.log("Pridobljene kategorije:", kategorije); 
       const kategorijaSelect = document.getElementById("kategorija");
       kategorije.forEach((kategorija) => {
         const option = document.createElement("option");
@@ -31,7 +31,6 @@ document
   .addEventListener("submit", function (event) {
     event.preventDefault(); 
 
-    // Ustvarite objekt za recept s pridobljenimi vrednostmi iz obrazca
     const recipe = {
       ime: document.getElementById("ime").value,
       opis: document.getElementById("opis").value,
@@ -46,38 +45,34 @@ document
       casPriprave: document.getElementById("casPriprave").value,
       kategorija: document.getElementById("kategorija").value,
     };
-    console.log(recipe); // Preverite podatke v konzoli
+    console.log(recipe); 
 
-    // Pošlji POST zahtevek na strežnik
     fetch("http://localhost:8080/api/recepti/dodaj", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(recipe), // Pošljite recept kot JSON
+      body: JSON.stringify(recipe), 
     })
       .then((response) => {
         if (response.ok) {
-          return response.json(); // Če je odgovor uspešen, preberite JSON
+          return response.json(); 
         } else {
           throw new Error("Napaka pri dodajanju recepta");
         }
       })
       .then((data) => {
-        alert("Recept uspešno dodan: " + data.ime); // Obveščanje uporabnika o uspehu
-        // Počisti obrazec po uspešni oddaji
+        alert("Recept uspešno dodan: " + data.ime); 
         document.getElementById("recipeForm").reset();
-        // Osveži seznam receptov po uspešnem dodajanju
-        fetchRecepti();
+        getPogostostSestavin();
       })
       .catch((error) => {
-        console.error("Napaka:", error); // Če pride do napake, jo izpišemo v konzoli
-        alert("Napaka pri dodajanju recepta."); // Obveščanje uporabnika o napaki
+        console.error("Napaka:", error); 
+        alert("Napaka pri dodajanju recepta."); 
       });
   });
 
-//inicializacija
 window.onload = () => {
   fetchKategorije();
-  fetchRecepti();
+  getPogostostSestavin();
 };
