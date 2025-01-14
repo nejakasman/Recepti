@@ -17,27 +17,13 @@ public class Komentar {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private float ocena;
-
     private String komentar;
 
     private LocalDateTime datumObjave;
 
     @ManyToOne
-    @JoinColumn(name = "uporabnik_id")
-    private Uporabnik uporabnik;
-
-    @ManyToOne
     @JoinColumn(name = "recept_id")
     private Recept recept;
-
-    public double getOcena() {
-
-        return 0;
-    }
-
-    public void setUporabnik(Uporabnik uporabnik) {
-    }
 
     public void setRecept(Recept recept) {
     }
@@ -45,11 +31,7 @@ public class Komentar {
     public void setKomentar(String komentarBesedilo) {
     }
 
-    public void setOcena(float ocena) {
-    }
-
     public void setDatumObjave(LocalDateTime now) {
     }
 
-    // Getterji, setterji in metode
 }

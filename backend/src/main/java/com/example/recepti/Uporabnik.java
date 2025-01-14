@@ -29,9 +29,4 @@ public class Uporabnik {
 
     private boolean jeAdmin;
 
-    @OneToMany(mappedBy = "uporabnik", cascade = CascadeType.ALL)
-    private List<Komentar> komentarji;
-
-
-
 }

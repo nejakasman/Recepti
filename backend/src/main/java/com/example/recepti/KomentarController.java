@@ -19,21 +19,15 @@ public class KomentarController {
     @Autowired
     private ReceptRepository receptRepository;
 
-    @Autowired
-    private UporabnikRepository uporabnikRepository;
-
     // Dodaj komentar k receptu
-    @PostMapping("/dodaj")
+    @PostMapping("/dodajKomentar")
     public ResponseEntity<?> dodajKomentar(@RequestBody KomentarRequest request) {
         try {
             Recept recept = receptRepository.findById(request.getReceptId())
                     .orElseThrow(() -> new IllegalArgumentException("Recept ne obstaja"));
 
-            Uporabnik uporabnik = (Uporabnik) uporabnikRepository.findById((int) request.getUporabnikId())
-                    .orElseThrow(() -> new IllegalArgumentException("Uporabnik ne obstaja"));
-
             Komentar komentar = komentarService.dodajKomentar(
-                    uporabnik, recept, request.getKomentar(), request.getOcena()
+                    recept, request.getKomentar()
             );
 
             return ResponseEntity.ok(komentar);
